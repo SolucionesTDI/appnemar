@@ -39,6 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CatDepartamentosDAL.cs" />
+    <Compile Include="CatPuestosDAL.cs" />
+    <Compile Include="CatSedesDAL.cs" />
+    <Compile Include="CatStatusDAL.cs" />
+    <Compile Include="CatTemasDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -39,6 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CatDepartamentos.cs" />
+    <Compile Include="CatPuestos.cs" />
+    <Compile Include="CatSedes.cs" />
+    <Compile Include="CatStatus.cs" />
+    <Compile Include="CatTemas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
