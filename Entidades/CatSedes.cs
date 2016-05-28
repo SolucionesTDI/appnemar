@@ -16,7 +16,7 @@ namespace Entidades
         public DateTime fecharegistro { get; set; }
         public Boolean activo { get; set; }
 
-
+        // aqui algo
         /// <summary>
         /// Constructor
         /// </summary>
