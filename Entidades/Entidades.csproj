@@ -44,6 +44,8 @@
     <Compile Include="CatSedes.cs" />
     <Compile Include="CatStatus.cs" />
     <Compile Include="CatTemas.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="Permisos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Usuarios.cs" />
   </ItemGroup>
