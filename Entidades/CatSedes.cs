@@ -17,6 +17,7 @@ namespace Entidades
         public Boolean activo { get; set; }
 
         //COMANETARIO CHACA
+        // aqui algo
         /// <summary>
         /// Constructor
         /// </summary>
