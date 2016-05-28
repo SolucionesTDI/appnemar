@@ -1,0 +1,8 @@
+C:\Users\solucionestdi\Desktop\SolucionesTDI\NEMAR\WebRetros\Negocio\bin\Debug\Negocio.dll
+C:\Users\solucionestdi\Desktop\SolucionesTDI\NEMAR\WebRetros\Negocio\bin\Debug\Negocio.pdb
+C:\Users\solucionestdi\Desktop\SolucionesTDI\NEMAR\WebRetros\Negocio\bin\Debug\Datos.dll
+C:\Users\solucionestdi\Desktop\SolucionesTDI\NEMAR\WebRetros\Negocio\bin\Debug\Entidades.dll
+C:\Users\solucionestdi\Desktop\SolucionesTDI\NEMAR\WebRetros\Negocio\bin\Debug\Entidades.pdb
+C:\Users\solucionestdi\Desktop\SolucionesTDI\NEMAR\WebRetros\Negocio\obj\Debug\Negocio.csprojResolveAssemblyReference.cache
+C:\Users\solucionestdi\Desktop\SolucionesTDI\NEMAR\WebRetros\Negocio\obj\Debug\Negocio.dll
+C:\Users\solucionestdi\Desktop\SolucionesTDI\NEMAR\WebRetros\Negocio\obj\Debug\Negocio.pdb

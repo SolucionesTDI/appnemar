@@ -1,0 +1,5 @@
+C:\Users\solucionestdi\Desktop\SolucionesTDI\NEMAR\WebRetros\Conexion\bin\Debug\Conexion.dll
+C:\Users\solucionestdi\Desktop\SolucionesTDI\NEMAR\WebRetros\Conexion\bin\Debug\Conexion.pdb
+C:\Users\solucionestdi\Desktop\SolucionesTDI\NEMAR\WebRetros\Conexion\obj\Debug\Conexion.dll
+C:\Users\solucionestdi\Desktop\SolucionesTDI\NEMAR\WebRetros\Conexion\obj\Debug\Conexion.pdb
+C:\Users\solucionestdi\Desktop\SolucionesTDI\NEMAR\WebRetros\Conexion\obj\Debug\Conexion.csprojResolveAssemblyReference.cache
