@@ -25,40 +25,28 @@ namespace Datos
             int id = 0;
             try
             {
-
-
-                using (SqlCommand command = new SqlCommand("SPD_CAT_PUESTOS_INS", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_cat_puestos_ins", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@descripcion", _catpuestos.descripcion);
+                    cn.OpenConnection();
+                    id = (int)command.ExecuteScalar();
+                 }
 
-                    try
-                    {
-                        cn.OpenConnection();
-                        id = (int)command.ExecuteScalar();
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("No se pudo guardar", ex);
-                    }
-                    finally
-                    {
-                        cn.CloseConnection();
-                    }
-                }
-
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("No se pudo insertar el registro del puesto" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("No se pudo insertar el registro del puesto" + ex.Message);
             }
-
+            finally
+            {
+                cn.CloseConnection();
+            }
             return id;
-
 
         }
 
@@ -66,35 +54,27 @@ namespace Datos
         {
             try
             {
-                using (SqlCommand command = new SqlCommand("SPD_CAT_PUESTOS_UPD", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_cat_puestos_upd", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@idpuesto", _catpuestos.idpuesto);
                     command.Parameters.AddWithValue("@descripcion", _catpuestos.descripcion);
+                    cn.OpenConnection();
+                    command.ExecuteNonQuery();
+                 }
 
-                    try
-                    {
-                        cn.OpenConnection();
-                        command.ExecuteNonQuery();
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("No se pudo actualizar el registro", ex);
-                    }
-                    finally
-                    {
-                        cn.CloseConnection();
-                    }
-                }
-
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("No se pudo modificar el registro del puesto" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("No se pudo modificar el registro del puesto" + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
             }
 
         }
@@ -103,50 +83,45 @@ namespace Datos
         {
             try
             {
-                using (SqlCommand command = new SqlCommand("SPD_CAT_PUESTOS_DEL", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_cat_puestos_del", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@idpuesto", _catpuestos.idpuesto);
+                    cn.OpenConnection();
+                    command.ExecuteNonQuery();
+                  }
 
-                    try
-                    {
-                        cn.OpenConnection();
-                        command.ExecuteNonQuery();
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("No se pudo eliminar el registro", ex);
-                    }
-                    finally
-                    {
-                        cn.CloseConnection();
-                    }
-                }
-
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("No se pudo eliminar el registro del puesto" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("No se pudo eliminar el registro del puesto" + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
             }
         }
 
-        public List<CatPuestos> obtenerPuestos()
+        public List<CatPuestos> obtenerPuestos(string filtro = null)
         {
             List<CatPuestos> list = new List<CatPuestos>();
             CatPuestos cat;
             try
             {
-                using (SqlCommand command = new SqlCommand("SPD_CAT_PUESTOS_GET", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_catalogos_get", cn.Connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
+                    //command.Parameters.AddWithValue("@idpuesto", id == 0 ? (object)DBNull.Value : id);
+                    command.Parameters.AddWithValue("@tipo", "puestos");
+                    command.Parameters.AddWithValue("@filtro", string.IsNullOrEmpty(filtro) ? (object)DBNull.Value : filtro);
+
                     SqlDataReader reader = command.ExecuteReader();
-                    try
-                    {
-                        cn.OpenConnection();
+
+                    cn.OpenConnection();
                         while (reader.Read())
                         {
                             cat = new CatPuestos();
@@ -155,25 +130,19 @@ namespace Datos
                             cat.fecharegistro = (DateTime)reader["fecharegistro"];
                             list.Add(cat);
                         }
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("No se pudo obtener los datos", ex);
-                    }
-                    finally
-                    {
-                        cn.CloseConnection();
-                    }
-
                 }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("No se pudo obtener registros del catalogo de puestos" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("No se pudo obtener registros del catalogo de puestos" + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
             }
             return list;
         }

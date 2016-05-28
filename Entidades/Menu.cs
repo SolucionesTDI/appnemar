@@ -6,21 +6,16 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
-
-    /// <summary>
-    /// Clase de la Entidad Status
-    /// </summary>
-    public class CatStatus
+    public class Menu
     {
-        public int idstatus { get; set; }
-        public string nomstatus { get; set; }
+        public int idmenu { get; set; }
+        public string nommenu { get; set; }
+        public string urlmenu { get; set; }
         public int orden { get; set; }
+        public int idpadre { get; set; }
         public DateTime fecharegistro { get; set; }
         public Boolean activo { get; set; }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public CatStatus() { }
+        public string icono { get; set; }
+        public Menu() { }
     }
 }

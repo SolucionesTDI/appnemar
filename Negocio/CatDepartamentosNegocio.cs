@@ -12,26 +12,53 @@ namespace Negocio
     {
         public int insertarDepartamento(CatDepartamentos _catdepartamentos)
         {
-            CatDepartamentosDAL _catdepartamentosDAL = new CatDepartamentosDAL();
-            return _catdepartamentosDAL.insertarDepartamento(_catdepartamentos);
+            try
+            {
+                CatDepartamentosDAL _catdepartamentosDAL = new CatDepartamentosDAL();
+                return _catdepartamentosDAL.insertarDepartamento(_catdepartamentos);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
         public void modificarDepartamento(CatDepartamentos _catdepartamentos)
         {
-
-            CatDepartamentosDAL _catdepartamentosDAL = new CatDepartamentosDAL();
-            _catdepartamentosDAL.modificarDepartamento(_catdepartamentos);
+            try
+            {
+                CatDepartamentosDAL _catdepartamentosDAL = new CatDepartamentosDAL();
+                _catdepartamentosDAL.modificarDepartamento(_catdepartamentos);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public void eliminarDepartamento(CatDepartamentos _catdepartamentos)
         {
-            CatDepartamentosDAL _catdepartamentosDAL = new CatDepartamentosDAL();
-            _catdepartamentosDAL.eliminarDepartamento(_catdepartamentos)
+            try
+            {
+                CatDepartamentosDAL _catdepartamentosDAL = new CatDepartamentosDAL();
+                _catdepartamentosDAL.eliminarDepartamento(_catdepartamentos);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public List<CatDepartamentos> list()
+        public List<CatDepartamentos> list(string filtro = null)
         {
-            CatDepartamentosDAL _catdepartamentosDAL = new CatDepartamentosDAL();
-            return _catdepartamentosDAL.obtenerDepartamentos();
+            try
+            {
+                CatDepartamentosDAL _catdepartamentosDAL = new CatDepartamentosDAL();
+                return _catdepartamentosDAL.obtenerDepartamentos(filtro);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

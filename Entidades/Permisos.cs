@@ -6,19 +6,14 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
-    /// <summary>
-    /// Clase de la Entidad Sedes
-    /// </summary>
-    public class CatSedes
+    public class Permisos
     {
-        public int idsede { get; set; }
+        public int idpermiso { get; set; }
         public string descripcion { get; set; }
         public DateTime fecharegistro { get; set; }
         public Boolean activo { get; set; }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public CatSedes() { }
+        public string tipo { get; set; }
+        public string clave { get; set; }
+        public Permisos() { }
     }
 }

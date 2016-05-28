@@ -27,153 +27,118 @@ namespace Datos
             {
 
 
-                using (SqlCommand command = new SqlCommand("SPD_CAT_SEDES_INS", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_cat_sedes_ins", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@descripcion", _catsedes.descripcion);
-
-                    try
-                    {
-                        cn.OpenConnection();
-                        id = (int)command.ExecuteScalar();
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("No se pudo guardar", ex);
-                    }
-                    finally
-                    {
-                        cn.CloseConnection();
-                    }
+                    cn.OpenConnection();
+                    id = (int)command.ExecuteScalar();
                 }
 
             }
+            catch (SqlException ex)
+            {
+                throw new Exception("No se pudo insertar el registro de la sede" + ex.Message);
+            }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("No se pudo insertar el registro de la sede" + ex.Message);
             }
-
-            return id;
-
-
+            finally
+            {
+                cn.CloseConnection();
+            }
+           return id;
         }
 
         public void modificarSede(CatSedes _catsedes)
         {
             try
             {
-                using (SqlCommand command = new SqlCommand("SPD_CAT_SEDES_UPD", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_cat_sedes_upd", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@idsede", _catsedes.idsede);
                     command.Parameters.AddWithValue("@descripcion", _catsedes.descripcion);
-
-                    try
-                    {
-                        cn.OpenConnection();
-                        command.ExecuteNonQuery();
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("No se pudo actualizar el registro", ex);
-                    }
-                    finally
-                    {
-                        cn.CloseConnection();
-                    }
+                    cn.OpenConnection();
+                    command.ExecuteNonQuery();
                 }
-
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("No se pudo modificar el registro de la sede" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("No se pudo modificar el registro de la sede" + ex.Message);
             }
-
+            finally
+            {
+                cn.CloseConnection();
+            }
         }
-
         public void eliminarSede(CatSedes _catsedes)
         {
             try
             {
-                using (SqlCommand command = new SqlCommand("SPD_CAT_SEDES_DEL", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_cat_sedes_del", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@idsede", _catsedes.idsede);
-
-                    try
-                    {
-                        cn.OpenConnection();
-                        command.ExecuteNonQuery();
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("No se pudo eliminar el registro", ex);
-                    }
-                    finally
-                    {
-                        cn.CloseConnection();
-                    }
+                    cn.OpenConnection();
+                    command.ExecuteNonQuery();
                 }
 
             }
+            catch (SqlException ex)
+            {
+                throw new Exception("No se pudo eliminar el registro de la sede" + ex.Message);
+            }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("No se pudo eliminar el registro de la sede" + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
             }
         }
 
-        public List<CatSedes> obtenerSedes()
+        public List<CatSedes> obtenerSedes(string filtro=null)
         {
             List<CatSedes> list = new List<CatSedes>();
             CatSedes cat;
             try
             {
-                using (SqlCommand command = new SqlCommand("SPD_CAT_SEDES_GET", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_catalogos_get", cn.Connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
+                    //command.Parameters.AddWithValue("@idpuesto", id == 0 ? (object)DBNull.Value : id);
+                    command.Parameters.AddWithValue("@tipo", "sedes");
+                    command.Parameters.AddWithValue("@filtro", string.IsNullOrEmpty(filtro) ? (object)DBNull.Value : filtro);
                     SqlDataReader reader = command.ExecuteReader();
-                    try
+                    cn.OpenConnection();
+                    while (reader.Read())
                     {
-                        cn.OpenConnection();
-                        while (reader.Read())
-                        {
-                            cat = new CatSedes();
-                            cat.idsede = (int)reader["idsede"];
-                            cat.descripcion = (string)reader["descripcion"];
-                            cat.fecharegistro = (DateTime)reader["fecharegistro"];
-                            list.Add(cat);
-                        }
+                        cat = new CatSedes();
+                        cat.idsede = (int)reader["idsede"];
+                        cat.descripcion = (string)reader["descripcion"];
+                        cat.fecharegistro = (DateTime)reader["fecharegistro"];
+                        list.Add(cat);
                     }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("No se pudo obtener los datos", ex);
-                    }
-                    finally
-                    {
-                        cn.CloseConnection();
-                    }
-
                 }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("No se pudo obtener registros del catalogo de sedes" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("No se pudo obtener registros del catalogo de sedes" + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
             }
             return list;
         }

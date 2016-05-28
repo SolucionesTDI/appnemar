@@ -26,39 +26,28 @@ namespace Datos
             int id = 0;
             try
             {
-
-
-                using (SqlCommand command = new SqlCommand("SPD_CAT_DEPARTAMENTOS_INS", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_cat_departamentos_ins", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@descripcion", _catdepartamentos.descripcion);
-                                     
-                    try
-                    {
-                        cn.OpenConnection();
-                        id = (int)command.ExecuteScalar();
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("No se pudo guardar",ex);
-                    }
-                    finally
-                    {
-                        cn.CloseConnection();
-                    }
-                }
-
+                    cn.OpenConnection();
+                    id = (int)command.ExecuteScalar();
+                 }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("No se pudo insertar el registro del departamento" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("No se pudo insertar el registro del departamento" + ex.Message);
             }
-         
-           return id;
+            finally
+            {
+                cn.CloseConnection();
+            }
+
+            return id;
                                      
            
         }
@@ -67,35 +56,26 @@ namespace Datos
         {
             try
             {
-                using (SqlCommand command = new SqlCommand("SPD_CAT_DEPARTAMENTOS_UPD", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_cat_departamentos_upd", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@iddpeto", _catdepartamentos.iddepto);
                     command.Parameters.AddWithValue("@descripcion", _catdepartamentos.descripcion);
-
-                    try
-                    {
-                        cn.OpenConnection();
-                        command.ExecuteNonQuery();
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("No se pudo actualizar el registro", ex);
-                    }
-                    finally
-                    {
-                        cn.CloseConnection();
-                    }
+                    cn.OpenConnection();
+                    command.ExecuteNonQuery();
                 }
-
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("No se pudo modificar el registro del departamento" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("No se pudo modificar el registro del departamento" + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
             }
 
         }
@@ -104,77 +84,64 @@ namespace Datos
         {
             try
             {
-                using (SqlCommand command = new SqlCommand("SPD_CAT_DEPARTAMENTOS_DEL", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_cat_departamentos_del", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@iddpeto", _catdepartamentos.iddepto);
-               
-                    try
-                    {
-                        cn.OpenConnection();
-                        command.ExecuteNonQuery();
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("No se pudo eliminar el registro", ex);
-                    }
-                    finally
-                    {
-                        cn.CloseConnection();
-                    }
+                    cn.OpenConnection();
+                    command.ExecuteNonQuery();
                 }
-
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("No se pudo eliminar el registro del departamento" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("No se pudo eliminar el registro del departamento" + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
             }
         }
 
-        public List<CatDepartamentos> obtenerDepartamentos()
+        public List<CatDepartamentos> obtenerDepartamentos(string filtro = null)
         {
             List<CatDepartamentos> list = new List<CatDepartamentos>();
             CatDepartamentos cat;
             try
             {
-                using (SqlCommand command = new SqlCommand("SPD_CAT_DEPARTAMENTOS_GET", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_catalogos_get", cn.Connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
+                    //command.Parameters.AddWithValue("@iddepto", id == 0 ? (object)DBNull.Value : id);
+                    command.Parameters.AddWithValue("@tipo", "departamentos");
+                    command.Parameters.AddWithValue("@filtro", string.IsNullOrEmpty(filtro) ? (object)DBNull.Value : filtro);
                     SqlDataReader reader = command.ExecuteReader();
-                    try
-                    {
-                        cn.OpenConnection();
-                        while (reader.Read())
-                        {
-                            cat = new CatDepartamentos();
-                            cat.iddepto = (int)reader["iddepto"];
-                            cat.descripcion = (string)reader["descripcion"];
-                            cat.fecharegistro = (DateTime)reader["fecharegistro"];
-                            list.Add(cat);
-                        }
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("No se pudo obtener los datos", ex);
-                    }
-                    finally
-                    {
-                        cn.CloseConnection();
-                    }
 
+                    cn.OpenConnection();
+                    while (reader.Read())
+                    {
+                        cat = new CatDepartamentos();
+                        cat.iddepto = (int)reader["iddepto"];
+                        cat.descripcion = (string)reader["descripcion"];
+                        cat.fecharegistro = (DateTime)reader["fecharegistro"];
+                        list.Add(cat);
+                    }
                 }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("No se pudo obtener registros del catalogo de departamentos" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("No se pudo obtener registros del catalogo de departamentos" + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
             }
             return list;
         }
