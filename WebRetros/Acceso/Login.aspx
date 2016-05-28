@@ -7,15 +7,15 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Acceso al Sistema</title>
-    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/assets/bootstrap/css/bootstrap.min.css" runat="server" />
       <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" />
       <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
       <!-- Theme style -->
-    <link rel="stylesheet" href="~/assets/dist/css/AdminLTE.min.css" />
+    <link rel="stylesheet" href="~/assets/dist/css/AdminLTE.min.css" runat="server" />
      <!-- iCheck -->
-    <link rel="stylesheet" href="~/assets/plugins/iCheck/square/blue.css" />
+    <link rel="stylesheet" href="~/assets/plugins/iCheck/square/blue.css" runat="server" />
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -26,7 +26,7 @@
   <div class="login-box-body">
     <p class="login-box-msg">Ingrese sus credenciales</p>
 
-    <form>
+    <form runat="server">
       <div class="form-group has-feedback">
         <input type="email" class="form-control" placeholder="Email">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -42,16 +42,22 @@
         </div>
         <!-- /.col -->
       </div>
+
+        <asp:ScriptManager ID="ScriptManager1" AsyncPostBackTimeout="360000" runat="server" EnablePageMethods="true" EnablePartialRendering="true">
+                <Scripts>
+                    <asp:ScriptReference Path="~/assets/plugins/jQuery/jQuery-2.2.0.min.js" />
+                    <asp:ScriptReference Path="~/assets/bootstrap/js/bootstrap.min.js" />
+                    
+                </Scripts>
+           
+           </asp:ScriptManager>
     </form>
   </div>
   <!-- /.login-box-body -->
 </div>
 <!-- /.login-box -->
 
-<!-- jQuery 2.2.0 -->
-<script src="~/assets/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="~/assets/bootstrap/js/bootstrap.min.js"></script>
 
+    
 </body>
 </html>
