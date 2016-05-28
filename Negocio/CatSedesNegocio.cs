@@ -12,26 +12,54 @@ namespace Negocio
     {
         public int insertarSede(CatSedes _catsedes)
         {
-            CatSedesDAL _catsedesDAL = new CatSedesDAL();
-            return _catsedesDAL.insertarSede(_catsedes);
+            try
+            {
+                CatSedesDAL _catsedesDAL = new CatSedesDAL();
+                return _catsedesDAL.insertarSede(_catsedes);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
         public void modificarSede(CatSedes _catsedes)
         {
-
-            CatSedesDAL _catsedesDAL = new CatSedesDAL();
-            _catsedesDAL.modificarSede(_catsedes);
+            try
+            {
+                CatSedesDAL _catsedesDAL = new CatSedesDAL();
+                _catsedesDAL.modificarSede(_catsedes);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public void eliminarSede(CatSedes _catsedes)
         {
-            CatSedesDAL _catsedesDAL = new CatSedesDAL();
-            _catsedesDAL.eliminarSede(_catsedes);
+            try
+            {
+                CatSedesDAL _catsedesDAL = new CatSedesDAL();
+                _catsedesDAL.eliminarSede(_catsedes);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public List<CatSedes> list()
+        public List<CatSedes> list(string filtro = null)
         {
-            CatSedesDAL _catsedesDAL = new CatSedesDAL();
-            return _catsedesDAL.obtenerSedes();
+            try
+            {
+                CatSedesDAL _catsedesDAL = new CatSedesDAL();
+                return _catsedesDAL.obtenerSedes(filtro);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Entidades
         public string nomstatus { get; set; }
         public int orden { get; set; }
         public DateTime fecharegistro { get; set; }
-        public Boolean activo { get; set; ; }
+        public Boolean activo { get; set; }
 
         /// <summary>
         /// Constructor

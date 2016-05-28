@@ -12,26 +12,52 @@ namespace Negocio
     {
         public int insertarPuesto(CatPuestos _catpuestos)
         {
-            CatPuestosDAL _catpuestosDAL = new CatPuestosDAL();
-            return _catpuestosDAL.insertarPuesto(_catpuestos);
+            try
+            {
+                CatPuestosDAL _catpuestosDAL = new CatPuestosDAL();
+                return _catpuestosDAL.insertarPuesto(_catpuestos);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
         public void modificarPuesto(CatPuestos _catpuestos)
         {
-
-            CatPuestosDAL _catpuestosDAL = new CatPuestosDAL();
-            _catpuestosDAL.modificarPuesto(_catpuestos);
+            try
+            {
+                CatPuestosDAL _catpuestosDAL = new CatPuestosDAL();
+                _catpuestosDAL.modificarPuesto(_catpuestos);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public void eliminarPuesto(CatPuestos _catpuestos)
         {
-            CatPuestosDAL _catpuestosDAL = new CatPuestosDAL();
-            _catpuestosDAL.eliminarPuesto(_catpuestos)
+            try
+            {
+                CatPuestosDAL _catpuestosDAL = new CatPuestosDAL();
+                _catpuestosDAL.eliminarPuesto(_catpuestos);
+            }catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public List<CatPuestos> list()
+        public List<CatPuestos> list(string filtro = null)
         {
-            CatPuestosDAL _catpuestosDAL = new CatPuestosDAL();
-            return _catpuestosDAL.obtenerPuestos();
+            try
+            {
+                CatPuestosDAL _catpuestosDAL = new CatPuestosDAL();
+                return _catpuestosDAL.obtenerPuestos(filtro);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
     }

@@ -23,78 +23,55 @@ namespace Datos
             int id = 0;
             try
             {
-
-
-                using (SqlCommand command = new SqlCommand("SPD_CAT_STATUS_INS", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_cat_status_ins", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@nomstatus", _catstatus.nomstatus);
                     command.Parameters.AddWithValue("@orden", _catstatus.orden);
-
-                    try
-                    {
-                        cn.OpenConnection();
-                        id = (int)command.ExecuteScalar();
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("No se pudo guardar", ex);
-                    }
-                    finally
-                    {
-                        cn.CloseConnection();
-                    }
+                    cn.OpenConnection();
+                    id = (int)command.ExecuteScalar();
                 }
-
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("No se pudo insertar el registro del status" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("No se pudo insertar el registro del status" + ex.Message);
             }
-
+            finally
+            {
+                cn.CloseConnection();
+            }
             return id;
-
-
         }
 
         public void modificarStatus(CatStatus _catstatus)
         {
             try
             {
-                using (SqlCommand command = new SqlCommand("SPD_CAT_STATUS_UPD", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_cat_status_upd", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@idstatus", _catstatus.idstatus);
                     command.Parameters.AddWithValue("@nomstatus", _catstatus.nomstatus);
                     command.Parameters.AddWithValue("@orden", _catstatus.orden);
-
-                    try
-                    {
-                        cn.OpenConnection();
-                        command.ExecuteNonQuery();
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("No se pudo actualizar el registro", ex);
-                    }
-                    finally
-                    {
-                        cn.CloseConnection();
-                    }
+                    cn.OpenConnection();
+                    command.ExecuteNonQuery();
                 }
-
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("No se pudo modificar el registro del status" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("No se pudo modificar el registro del status" + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
             }
 
         }
@@ -103,79 +80,65 @@ namespace Datos
         {
             try
             {
-                using (SqlCommand command = new SqlCommand("SPD_CAT_STATUS_DEL", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_cat_status_del", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@idstatus", _catstatus.idstatus);
-
-                    try
-                    {
-                        cn.OpenConnection();
-                        command.ExecuteNonQuery();
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("No se pudo eliminar el registro", ex);
-                    }
-                    finally
-                    {
-                        cn.CloseConnection();
-                    }
+                    cn.OpenConnection();
+                    command.ExecuteNonQuery();
                 }
-
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("No se pudo eliminar el registro del status" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("No se pudo eliminar el registro del status" + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
             }
         }
-
-        public List<CatStatus> obtenerStatus()
+        public List<CatStatus> obtenerStatus(string filtro=null)
         {
             List<CatStatus> list = new List<CatStatus>();
             CatStatus cat;
             try
             {
-                using (SqlCommand command = new SqlCommand("SPD_CAT_STATUS_GET", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_catalogos_get", cn.Connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
+                    //command.Parameters.AddWithValue("@idpuesto", id == 0 ? (object)DBNull.Value : id);
+                    command.Parameters.AddWithValue("@tipo", "status");
+                    command.Parameters.AddWithValue("@filtro", string.IsNullOrEmpty(filtro) ? (object)DBNull.Value : filtro);
                     SqlDataReader reader = command.ExecuteReader();
-                    try
+                    cn.OpenConnection();
+                    while (reader.Read())
                     {
-                        cn.OpenConnection();
-                        while (reader.Read())
-                        {
-                            cat = new CatStatus();
-                            cat.idstatus = (int)reader["idstatus"];
-                            cat.nomstatus = (string)reader["nomstatus"];
-                            cat.orden = (int)reader["orden"];
-                            cat.fecharegistro = (DateTime)reader["fecharegistro"];
-                            list.Add(cat);
-                        }
+                        cat = new CatStatus();
+                        cat.idstatus = (int)reader["idstatus"];
+                        cat.nomstatus = (string)reader["nomstatus"];
+                        cat.orden = (int)reader["orden"];
+                        cat.fecharegistro = (DateTime)reader["fecharegistro"];
+                        list.Add(cat);
                     }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("No se pudo obtener los datos", ex);
-                    }
-                    finally
-                    {
-                        cn.CloseConnection();
-                    }
-
                 }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("No se pudo modificar el registro del status" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("No se pudo modificar el registro del status" + ex.Message);
             }
+            finally
+            {
+                cn.CloseConnection();
+            }
+
             return list;
         }
 
