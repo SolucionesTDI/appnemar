@@ -37,7 +37,10 @@
 
     void RegisterRoutes(RouteCollection routes)
     {
-        routes.MapPageRoute("LoginApp", "Login/", "~/Acceso/Login.aspx");
+        routes.MapPageRoute("LoginApp", "Login", "~/Acceso/Login.aspx");
+        routes.MapPageRoute("LogoutApp", "logout", "~/Acceso/Logout.aspx");
+        routes.MapPageRoute("IndexApp", "inicio", "~/Inicio.aspx");
+        routes.MapPageRoute("CatalogosApp", "admin/catalogos", "~/Administracion/Catalogos.aspx");
     }
        
 </script>

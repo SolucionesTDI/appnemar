@@ -44,7 +44,9 @@
     <Compile Include="CatSedesDAL.cs" />
     <Compile Include="CatStatusDAL.cs" />
     <Compile Include="CatTemasDAL.cs" />
+    <Compile Include="MenuDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UsuariosDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Conexion\Conexion.csproj">
