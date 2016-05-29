@@ -113,8 +113,9 @@ namespace Datos
                     //command.Parameters.AddWithValue("@idpuesto", id == 0 ? (object)DBNull.Value : id);
                     command.Parameters.AddWithValue("@tipo", "status");
                     command.Parameters.AddWithValue("@filtro", string.IsNullOrEmpty(filtro) ? (object)DBNull.Value : filtro);
-                    SqlDataReader reader = command.ExecuteReader();
                     cn.OpenConnection();
+                    SqlDataReader reader = command.ExecuteReader();
+                    
                     while (reader.Read())
                     {
                         cat = new CatStatus();

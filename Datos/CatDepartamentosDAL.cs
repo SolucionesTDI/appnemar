@@ -59,7 +59,7 @@ namespace Datos
                 using (SqlCommand command = new SqlCommand("spd_cat_departamentos_upd", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@iddpeto", _catdepartamentos.iddepto);
+                    command.Parameters.AddWithValue("@iddepto", _catdepartamentos.iddepto);
                     command.Parameters.AddWithValue("@descripcion", _catdepartamentos.descripcion);
                     cn.OpenConnection();
                     command.ExecuteNonQuery();
@@ -87,7 +87,7 @@ namespace Datos
                 using (SqlCommand command = new SqlCommand("spd_cat_departamentos_del", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@iddpeto", _catdepartamentos.iddepto);
+                    command.Parameters.AddWithValue("@iddepto", _catdepartamentos.iddepto);
                     cn.OpenConnection();
                     command.ExecuteNonQuery();
                 }
@@ -118,9 +118,9 @@ namespace Datos
                     //command.Parameters.AddWithValue("@iddepto", id == 0 ? (object)DBNull.Value : id);
                     command.Parameters.AddWithValue("@tipo", "departamentos");
                     command.Parameters.AddWithValue("@filtro", string.IsNullOrEmpty(filtro) ? (object)DBNull.Value : filtro);
-                    SqlDataReader reader = command.ExecuteReader();
-
                     cn.OpenConnection();
+                    SqlDataReader reader = command.ExecuteReader();
+                    
                     while (reader.Read())
                     {
                         cat = new CatDepartamentos();
