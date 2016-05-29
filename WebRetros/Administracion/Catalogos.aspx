@@ -1,18 +1,22 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Catalogos.aspx.cs" Inherits="Administracion_Catalogos" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Catalogos.aspx.cs" Inherits="Administracion_Catalogos" MasterPageFile="~/Site.master" %>
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-    <div>
-
-       
-        <asp:Label ID="lblGridViewDepartamentos" runat="server" Text="Departamentos" ></asp:Label> <asp:HiddenField ID="IdDepartamentos" runat="server" />
+<asp:Content ContentPlaceHolderID="contentBody" runat="server" ID="contInicio">
+ <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+        Catalogos <button type="button" style="display: none;" id="btnShowPopup" class="btn btn-primary btn-lg"
+                data-toggle="modal" data-target="#myModal">
+                Launch demo modal
+            </button>  
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-home"></i> Inicio</a></li>
+        </ol>
+    </section>
+    <section class="content">
+       <asp:Label ID="lblGridViewDepartamentos" runat="server" Text="Departamentos" ></asp:Label> <asp:HiddenField ID="IdDepartamentos" runat="server" />
         <asp:GridView ID="GridViewDepartamentos" runat="server" AutoGenerateColumns="false" DataKeyNames="iddepto" OnRowCommand="GridView_RowCommand">
             <Columns>
 
@@ -21,13 +25,13 @@
                 <asp:BoundField DataField="fecharegistro" HeaderText="Fecha Alta" Visible="true" />
                 <asp:TemplateField HeaderText="Opciones">
                     <ItemTemplate>
-                        <asp:Button ID="btnEditarDepartamento" runat="server"  
+                        <asp:Button ID="btnEditarDepartamento" runat="server"
                             CommandName="EditarDepartamento"
-                            CommandArgument= "<%# ((GridViewRow) Container).RowIndex %>"                      
+                            CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
                             Text="Editar" />
-                        <asp:Button ID="btnEliminarDepartamento" runat="server"  
+                        <asp:Button ID="btnEliminarDepartamento" runat="server"
                             CommandName="EliminarDepartamento"
-                            CommandArgument= "<%# ((GridViewRow) Container).RowIndex %>"                                  
+                            CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
                             Text="Eliminar" />
                     </ItemTemplate>
                 </asp:TemplateField>
@@ -119,8 +123,32 @@
                 </asp:TemplateField>
             </Columns>
         </asp:GridView>
+        <div class="modal fade" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">
+                                Registration done Successfully</h4>
+                        </div>
+                        <div class="modal-body">
+                            <asp:Label ID="lblMessage" runat="server" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                Close</button>
+                            <button type="button" class="btn btn-primary">
+                                Save changes</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal --> 
 
-        <div>
+         <div>
          <asp:Label ID="lblAgregarDepartamento" runat="server" Text="Agregar Departamento"></asp:Label>
         <asp:Label ID="lblDepartamento" runat="server" Text="Departamento: "></asp:Label>
         <asp:TextBox ID="txtDepartamento" runat="server"></asp:TextBox>
@@ -160,6 +188,11 @@
         </div>
 
     </div>
-    </form>
-</body>
-</html>
+
+    </section>
+</div>
+</asp:Content>
+
+       
+      
+
