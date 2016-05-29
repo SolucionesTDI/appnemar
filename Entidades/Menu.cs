@@ -8,7 +8,7 @@ namespace Entidades
 {
     public class Menu
     {
-        public int idmenu { get; set; }
+        public int Idmenu { get; set; }
         public string nommenu { get; set; }
         public string urlmenu { get; set; }
         public int orden { get; set; }

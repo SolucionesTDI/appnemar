@@ -28,21 +28,25 @@
 
     <form runat="server">
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+          <asp:TextBox ID="txtmail" type="email" CssClass="form-control" placeholder="Email" runat="server"></asp:TextBox>
+          <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password">
+        <asp:TextBox ID="txtpass" TextMode="Password" CssClass="form-control" placeholder="Password" runat="server"></asp:TextBox>
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+            <asp:Button ID="btnLogin" CssClass="btn btn-primary btn-block btn-flat" OnClick="btnLogin_Click" runat="server" Text="Ingresar" />
         </div>
+
+          <div class="col-xs-12 clearfix">
+              <asp:Label ID="lblMensaje" CssClass="alert alert-danger" runat="server" Visible="false" Text=""></asp:Label>
+          </div>
         <!-- /.col -->
       </div>
-
+      
         <asp:ScriptManager ID="ScriptManager1" AsyncPostBackTimeout="360000" runat="server" EnablePageMethods="true" EnablePartialRendering="true">
                 <Scripts>
                     <asp:ScriptReference Path="~/assets/plugins/jQuery/jQuery-2.2.0.min.js" />

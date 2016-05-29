@@ -3,31 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
 using Datos;
 using Entidades;
 namespace Negocio
 {
-    public class UsuariosBL
+    public class MenusBL
     {
-        private UsuariosDAL dal;
+        private MenuDAL dal;
 
-        public UsuariosBL()
+        public MenusBL()
         {
-            dal = new UsuariosDAL();
+            dal = new MenuDAL();
         }
 
-        public Usuarios Sigin(string user, string password)
+        public List<Menu> GetMenus(int idperfil)
         {
             try
             {
-                return dal.Sigin(user, password);
+                return dal.GetMenus(idperfil);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-           
         }
     }
 }
