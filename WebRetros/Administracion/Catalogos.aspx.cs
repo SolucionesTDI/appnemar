@@ -31,8 +31,6 @@ public partial class Administracion_Catalogos : System.Web.UI.Page
             GridViewPuestos.DataSource = _catpuesneg.list();
             GridViewPuestos.DataBind();
 
-            GridViewStatus.DataSource = _catstatneg.list();
-            GridViewStatus.DataBind();
 
             GridViewSedes.DataSource = _catsedneg.list();
             GridViewSedes.DataBind();
@@ -46,135 +44,347 @@ public partial class Administracion_Catalogos : System.Web.UI.Page
         if(e.CommandName == "EditarDepartamento")
         {
             int fila = Convert.ToInt32(e.CommandArgument);
-            IdDepartamentos.Value = this.GridViewDepartamentos.DataKeys[fila].Value.ToString();
+            lblModalTitleEditar.Text = "Editar Departamento";
+            txtDescripcionEditar.Text = this.GridViewDepartamentos.Rows[fila].Cells[0].Text;
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEditar", "$('#ModalEditar').modal();", true);
+            upModalEditar.Update();
+            ID.Value = this.GridViewDepartamentos.DataKeys[fila].Value.ToString();
+            Catalogo.Value = "Departamentos";
         }
         if (e.CommandName == "EliminarDepartamento")
         {
             int fila = Convert.ToInt32(e.CommandArgument);
-            IdDepartamentos.Value = this.GridViewDepartamentos.DataKeys[fila].Value.ToString();
+            ID.Value = this.GridViewDepartamentos.DataKeys[fila].Value.ToString();
+            Catalogo.Value = "Departamentos";
+            lblModalTitleEliminar.Text = "Eliminar";
+            lblModalBodyEliminar.Text = "¿ Esta seguro que desea eliminar el Registro : " + this.GridViewDepartamentos.Rows[fila].Cells[0].Text + " ?";
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEliminar", "$('#ModalEliminar').modal();", true);
+            upModalEliminar.Update();
         }
         if (e.CommandName == "EditarPuesto")
         {
             int fila = Convert.ToInt32(e.CommandArgument);
-            IdPuestos.Value = this.GridViewPuestos.DataKeys[fila].Value.ToString();
+            lblModalTitleEditar.Text = "Editar Puesto";
+            txtDescripcionEditar.Text = this.GridViewPuestos.Rows[fila].Cells[0].Text;
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEditar", "$('#ModalEditar').modal();", true);
+            upModalEditar.Update();
+            ID.Value = this.GridViewPuestos.DataKeys[fila].Value.ToString();
+            Catalogo.Value = "Puestos";
         }
         if (e.CommandName == "EliminarPuesto")
         {
             int fila = Convert.ToInt32(e.CommandArgument);
-            IdPuestos.Value = this.GridViewPuestos.DataKeys[fila].Value.ToString();
+            ID.Value = this.GridViewPuestos.DataKeys[fila].Value.ToString();
+            Catalogo.Value = "Puestos";
+            lblModalTitleEliminar.Text = "Eliminar";
+            lblModalBodyEliminar.Text = "¿ Esta seguro que desea eliminar el Registro : " + this.GridViewPuestos.Rows[fila].Cells[0].Text + " ?";
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEliminar", "$('#ModalEliminar').modal();", true);
+            upModalEliminar.Update();
         }
         if (e.CommandName == "EditarSede")
         {
-            int fila = Convert.ToInt32(e.CommandArgument);
-            IdSede.Value = this.GridViewSedes.DataKeys[fila].Value.ToString();
+            int fila = Convert.ToInt32(e.CommandArgument);     
+            lblModalTitleEditar.Text = "Editar Sede";
+            txtDescripcionEditar.Text = this.GridViewSedes.Rows[fila].Cells[0].Text;
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEditar", "$('#ModalEditar').modal();", true);
+            upModalEditar.Update();
+            ID.Value = this.GridViewSedes.DataKeys[fila].Value.ToString();
+            Catalogo.Value = "Sedes";
         }
         if (e.CommandName == "EliminarSede")
         {
             int fila = Convert.ToInt32(e.CommandArgument);
-            IdSede.Value = this.GridViewSedes.DataKeys[fila].Value.ToString();
+            ID.Value = this.GridViewSedes.DataKeys[fila].Value.ToString();
+            Catalogo.Value = "Sedes";
+            lblModalTitleEliminar.Text = "Eliminar Sede";
+            lblModalBodyEliminar.Text = "¿ Esta seguro que desea eliminar el Registro : " + this.GridViewSedes.Rows[fila].Cells[0].Text + " ?";
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEliminar", "$('#ModalEliminar').modal();", true);
+            upModalEliminar.Update();
         }
-        if (e.CommandName == "EditarStatus")
-        {
-            int fila = Convert.ToInt32(e.CommandArgument);
-            IdStatus.Value= this.GridViewStatus.DataKeys[fila].Value.ToString();
-        }
-        if (e.CommandName == "EliminarStatus")
-        {
-            int fila = Convert.ToInt32(e.CommandArgument);
-            IdStatus.Value = this.GridViewStatus.DataKeys[fila].Value.ToString();
-        }
+     
         if (e.CommandName == "EditarTema")
         {
             int fila = Convert.ToInt32(e.CommandArgument);
-            IdTemas.Value = this.GridViewTemas.DataKeys[fila].Value.ToString();
+            lblModalTitleEditar.Text = "Editar Tema";
+            txtDescripcionEditar.Text = this.GridViewTemas.Rows[fila].Cells[0].Text;
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEditar", "$('#ModalEditar').modal();", true);
+            upModalEditar.Update();
+            ID.Value = this.GridViewTemas.DataKeys[fila].Value.ToString();
+            Catalogo.Value = "Sedes";
         }
         if (e.CommandName == "EliminarTema")
         {
             int fila = Convert.ToInt32(e.CommandArgument);
-            IdTemas.Value = this.GridViewTemas.DataKeys[fila].Value.ToString();
+            ID.Value = this.GridViewTemas.DataKeys[fila].Value.ToString();
+            Catalogo.Value = "Temas";
+            lblModalTitleEliminar.Text = "Eliminar";
+            lblModalBodyEliminar.Text = "¿ Esta seguro que desea eliminar el Registro : " + this.GridViewTemas.Rows[fila].Cells[0].Text + " ?";
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEliminar", "$('#ModalEliminar').modal();", true);
+            upModalEliminar.Update();
         }
     }
-    protected void btnGuardarDepartamento_Click(object sender, EventArgs e)
+
+    protected void Nuevo_Click(object sender, EventArgs e)
     {
-        if(IdDepartamentos.Value!= null)
+        if (Catalogo.Value == "Departamentos")
         {
             _catdepartamento = new CatDepartamentos();
-            _catdepartamento.iddepto = Convert.ToInt32(IdDepartamentos.Value.ToString());
-            _catdepartamento.descripcion = txtDepartamento.Text;
-            _catdepneg.eliminarDepartamento(_catdepartamento);
-        }
-        else
-        {
-            _catdepartamento = new CatDepartamentos();
-            _catdepartamento.descripcion = txtDepartamento.Text;
+            _catdepartamento.descripcion = txtDescripcionNuevo.Text;
             _catdepneg.insertarDepartamento(_catdepartamento);
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalNuevo", "$('#ModalNuevo').modal('hide');", true);
+            upModalNuevo.Update();
+            GridViewDepartamentos.DataSource = _catdepneg.list();
+            GridViewDepartamentos.DataBind();
         }
-    }
-    protected void btnGuardarPuesto_Click(object sender, EventArgs e)
-    {
-        if (IdPuestos.Value != null)
-        {
-            _catpuesto = new CatPuestos();
-            _catpuesto.idpuesto = Convert.ToInt32(IdPuestos.Value.ToString());
-            _catpuesto.descripcion = txtPuesto.Text;
-            _catpuesneg.modificarPuesto(_catpuesto);
-        }
-        else
-        {
-            _catpuesto = new CatPuestos();
-            _catpuesto.descripcion = txtPuesto.Text;
-            _catpuesneg.insertarPuesto(_catpuesto);
-        }
-    }
-    protected void btnGuardarSede_Click(object sender, EventArgs e)
-    {
-        if (IdSede.Value != null)
+        if (Catalogo.Value == "Sedes")
         {
             _catsede = new CatSedes();
-            _catsede.idsede = Convert.ToInt32(IdSede.Value.ToString());
-            _catsede.descripcion = txtSede.Text;
-            _catsedneg.eliminarSede(_catsede);
-        }
-        else
-        {
-            _catsede = new CatSedes();
-            _catsede.descripcion = txtSede.Text;
+            _catsede.descripcion = txtDescripcionNuevo.Text;
             _catsedneg.insertarSede(_catsede);
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalNuevo", "$('#ModalNuevo').modal('hide');", true);
+            upModalNuevo.Update();
+            GridViewSedes.DataSource = _catsedneg.list();
+            GridViewSedes.DataBind();
         }
-    }
-    protected void btnGuardarStatus_Click(object sender, EventArgs e)
-    {
-        if (IdStatus.Value != null)
+        if (Catalogo.Value == "Puestos")
         {
-            _catstatus = new CatStatus();
-            _catstatus.idstatus = Convert.ToInt32(IdStatus.Value.ToString());
-            _catstatus.nomstatus = txtNomStatus.Text;
-            _catstatneg.eliminarStatu(_catstatus);
+            _catpuesto = new CatPuestos();
+            _catpuesto.descripcion = txtDescripcionNuevo.Text;
+            _catpuesneg.insertarPuesto(_catpuesto);
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalNuevo", "$('#ModalNuevo').modal('hide');", true);
+            upModalNuevo.Update();
+            GridViewPuestos.DataSource = _catpuesneg.list();
+            GridViewPuestos.DataBind();
         }
-        else
-        {
-            _catstatus = new CatStatus();
-            _catstatus.nomstatus = txtNomStatus.Text;
-            _catstatus.orden = Convert.ToInt32(txtOrden.Text);
-            _catstatneg.insertarStatu(_catstatus);
-
-        }
-
-    }
-    protected void btnGuardarTema_Click(object sender, EventArgs e)
-    {
-        if (IdTemas.Value != null)
+        if (Catalogo.Value == "Temas")
         {
             _cattema = new CatTemas();
-            _cattema.idtema = Convert.ToInt32(IdTemas.Value.ToString());
-            _cattema.descripcion = txtTema.Text;
-            _cattemneg.eliminarTema(_cattema);
-        }
-        else
-        {
-            _cattema = new CatTemas();
-            _cattema.descripcion = txtTema.Text;
+            _cattema.descripcion = txtDescripcionNuevo.Text;
             _cattemneg.insertarTema(_cattema);
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalNuevo", "$('#ModalNuevo').modal('hide');", true);
+            upModalNuevo.Update();
+            GridViewTemas.DataSource = _cattemneg.list();
+            GridViewTemas.DataBind();
         }
+
+
     }
+
+    protected void BuscarSede_Click(object sender, EventArgs e)
+    {
+            GridViewSedes.DataSource = _catsedneg.list(txtBuscarSede.Text);
+            GridViewSedes.DataBind();
+    }
+    protected void BuscarDepartamento_Click(object sender, EventArgs e)
+    {
+        GridViewDepartamentos.DataSource = _catdepneg.list(txtBuscarDepartamento.Text);
+        GridViewDepartamentos.DataBind();
+    }
+    protected void BuscarTema_Click(object sender, EventArgs e)
+    {
+        GridViewTemas.DataSource = _cattemneg.list(txtBuscarTema.Text);
+        GridViewTemas.DataBind();
+    }
+    protected void BuscarPuesto_Click(object sender, EventArgs e)
+    {
+        GridViewPuestos.DataSource = _catpuesneg.list(txtBuscarPuesto.Text);
+        GridViewPuestos.DataBind();
+    }
+
+
+
+    protected void NuevaSede_Click(object sender, EventArgs e)
+    {
+        lblModalTitleNuevo.Text = "Nueva Sede";
+        txtDescripcionNuevo.Text = string.Empty;
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalNuevo", "$('#ModalNuevo').modal();", true);
+        upModalNuevo.Update();
+        Catalogo.Value = "Sedes";
+    }
+    protected void NuevoDepartamento_Click(object sender, EventArgs e)
+    {
+        lblModalTitleNuevo.Text = "Nuevo Departamento";
+        txtDescripcionNuevo.Text = string.Empty;
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalNuevo", "$('#ModalNuevo').modal();", true);
+        upModalNuevo.Update();
+        Catalogo.Value = "Departamentos";
+    }
+
+    protected void NuevoPuesto_Click(object sender, EventArgs e)
+    {
+        lblModalTitleNuevo.Text = "Nuevo Puesto";
+        txtDescripcionNuevo.Text = string.Empty;
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalNuevo", "$('#ModalNuevo').modal();", true);
+        upModalNuevo.Update();
+        Catalogo.Value = "Puestos";
+    }
+    protected void NuevoTema_Click(object sender, EventArgs e)
+    {
+        lblModalTitleNuevo.Text = "Nuevo Tema";
+        txtDescripcionNuevo.Text = string.Empty;
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalNuevo", "$('#ModalNuevo').modal();", true);
+        upModalNuevo.Update();
+        Catalogo.Value = "Temas";
+    }
+
+
+    protected void Eliminar_Click(object sender,EventArgs e)
+    {
+        if(Catalogo.Value == "Departamentos")
+        {
+               _catdepartamento = new CatDepartamentos();
+               _catdepartamento.iddepto = Convert.ToInt32(ID.Value.ToString());
+               _catdepneg.eliminarDepartamento(_catdepartamento);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEliminar", "$('#ModalEliminar').modal('hide');", true);
+                upModalEditar.Update();
+                GridViewDepartamentos.DataSource = _catsedneg.list();
+                GridViewDepartamentos.DataBind();
+        }
+        if (Catalogo.Value == "Sedes")
+        {
+            _catsede = new CatSedes();
+            _catsede.idsede = Convert.ToInt32(ID.Value.ToString());
+            _catsedneg.eliminarSede(_catsede);
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEliminar", "$('#ModalEliminar').modal('hide');", true);
+            upModalEditar.Update();
+            GridViewSedes.DataSource = _catsedneg.list();
+            GridViewSedes.DataBind();
+        }
+        if (Catalogo.Value == "Puestos")
+        {
+            _catpuesto = new CatPuestos();
+            _catpuesto.idpuesto = Convert.ToInt32(ID.Value.ToString());
+            _catpuesneg.eliminarPuesto(_catpuesto);
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEliminar", "$('#ModalEliminar').modal('hide');", true);
+            upModalEditar.Update();
+            GridViewPuestos.DataSource = _catsedneg.list();
+            GridViewPuestos.DataBind();
+        }
+        if (Catalogo.Value == "Temas")
+        {
+            _cattema = new CatTemas();
+            _cattema.idtema = Convert.ToInt32(ID.Value.ToString());
+            _cattemneg.eliminarTema(_cattema);
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEliminar", "$('#ModalEliminar').modal('hide');", true);
+            upModalEditar.Update();
+            GridViewTemas.DataSource = _catsedneg.list();
+            GridViewTemas.DataBind();
+        }
+
+    }
+    protected void Editar_Click(object sender, EventArgs e)
+    {
+        if (Catalogo.Value == "Departamentos")
+        {
+            _catdepartamento = new CatDepartamentos();
+            _catdepartamento.iddepto = Convert.ToInt32(ID.Value.ToString());
+            _catdepartamento.descripcion = txtDescripcionEditar.Text;
+            _catdepneg.modificarDepartamento(_catdepartamento);
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEditar", "$('#ModalEditar').modal('hide');", true);
+            upModalEditar.Update();
+            GridViewDepartamentos.DataSource = _catdepneg.list();
+            GridViewDepartamentos.DataBind();
+        }
+        if (Catalogo.Value == "Sedes")
+        {
+            _catsede = new CatSedes();
+            _catsede.idsede = Convert.ToInt32(ID.Value.ToString());
+            _catsede.descripcion = txtDescripcionEditar.Text;
+            _catsedneg.modificarSede(_catsede);
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEditar", "$('#ModalEditar').modal('hide');", true);
+            upModalEditar.Update();
+            GridViewSedes.DataSource = _catsedneg.list();
+            GridViewSedes.DataBind();
+        }
+        if (Catalogo.Value == "Puestos")
+        {
+            _catpuesto = new CatPuestos();
+            _catpuesto.idpuesto = Convert.ToInt32(ID.Value.ToString());
+            _catpuesto.descripcion = txtDescripcionEditar.Text;
+            _catpuesneg.modificarPuesto(_catpuesto);
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEditar", "$('#ModalEditar').modal('hide');", true);
+            upModalEditar.Update();
+            GridViewPuestos.DataSource = _catpuesneg.list();
+            GridViewPuestos.DataBind();
+        }
+        if (Catalogo.Value == "Temas")
+        {
+            _cattema = new CatTemas();
+            _cattema.idtema = Convert.ToInt32(ID.Value.ToString());
+            _cattema.descripcion = txtDescripcionEditar.Text;
+            _cattemneg.modificarTema(_cattema);
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEditar", "$('#ModalEditar').modal('hide');", true);
+            upModalEditar.Update();
+            GridViewTemas.DataSource = _cattemneg.list();
+            GridViewTemas.DataBind();
+        }
+
+
+    }
+
+    //protected void btnGuardarDepartamento_Click(object sender, EventArgs e)
+    //{
+    //    if(IdDepartamentos.Value!= null)
+    //    {
+    //        _catdepartamento = new CatDepartamentos();
+    //        _catdepartamento.iddepto = Convert.ToInt32(IdDepartamentos.Value.ToString());
+    //        _catdepartamento.descripcion = txtDepartamento.Text;
+    //        _catdepneg.eliminarDepartamento(_catdepartamento);
+    //    }
+    //    else
+    //    {
+    //        _catdepartamento = new CatDepartamentos();
+    //        _catdepartamento.descripcion = txtDepartamento.Text;
+    //        _catdepneg.insertarDepartamento(_catdepartamento);
+    //    }
+    //}
+    //protected void btnGuardarPuesto_Click(object sender, EventArgs e)
+    //{
+    //    if (IdPuestos.Value != null)
+    //    {
+    //        _catpuesto = new CatPuestos();
+    //        _catpuesto.idpuesto = Convert.ToInt32(IdPuestos.Value.ToString());
+    //        _catpuesto.descripcion = txtPuesto.Text;
+    //        _catpuesneg.modificarPuesto(_catpuesto);
+    //    }
+    //    else
+    //    {
+    //        _catpuesto = new CatPuestos();
+    //        _catpuesto.descripcion = txtPuesto.Text;
+    //        _catpuesneg.insertarPuesto(_catpuesto);
+    //    }
+    //}
+    //protected void btnGuardarSede_Click(object sender, EventArgs e)
+    //{
+    //    if (IdSede.Value.ToString() != "")
+    //    {
+    //        _catsede = new CatSedes();
+    //        _catsede.idsede = Convert.ToInt32(IdSede.Value.ToString());
+    //        _catsede.descripcion = txtSede.Text;
+    //        _catsedneg.eliminarSede(_catsede);
+    //    }
+    //    else
+    //    {
+    //        _catsede = new CatSedes();
+    //        _catsede.descripcion = txtSede.Text;
+    //        _catsedneg.insertarSede(_catsede);
+    //    }
+    //}
+
+    //protected void btnGuardarTema_Click(object sender, EventArgs e)
+    //{
+    //    if (IdTemas.Value != null)
+    //    {
+    //        _cattema = new CatTemas();
+    //        _cattema.idtema = Convert.ToInt32(IdTemas.Value.ToString());
+    //        _cattema.descripcion = txtTema.Text;
+    //        _cattemneg.eliminarTema(_cattema);
+    //    }
+    //    else
+    //    {
+    //        _cattema = new CatTemas();
+    //        _cattema.descripcion = txtTema.Text;
+    //        _cattemneg.insertarTema(_cattema);
+    //    }
+    //}
 }
