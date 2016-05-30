@@ -41,6 +41,7 @@
         routes.MapPageRoute("LogoutApp", "logout", "~/Acceso/Logout.aspx");
         routes.MapPageRoute("IndexApp", "inicio", "~/Inicio.aspx");
         routes.MapPageRoute("CatalogosApp", "admin/catalogos", "~/Administracion/Catalogos.aspx");
+        routes.MapPageRoute("UsuariosApp", "admin/usuarios", "~/Administracion/Usuarios.aspx");
     }
        
 </script>
