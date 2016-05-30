@@ -41,10 +41,18 @@
             <asp:Button ID="btnLogin" CssClass="btn btn-primary btn-block btn-flat" OnClick="btnLogin_Click" runat="server" Text="Ingresar" />
         </div>
 
-          <div class="col-xs-12 clearfix">
-              <asp:Label ID="lblMensaje" CssClass="alert alert-danger" runat="server" Visible="false" Text=""></asp:Label>
-          </div>
+          
         <!-- /.col -->
+      </div>
+      <div class="row">
+          <div class="col-xs-12">
+              <br />
+              <div class="has-error">
+                <asp:Label CssClass="control-label" ID="lblMensaje" runat="server" Visible="false" Text="">
+                    <i class="fa fa-times-circle-o"></i> Credenciales incorrectas
+                </asp:Label>
+              </div>
+          </div>
       </div>
       
         <asp:ScriptManager ID="ScriptManager1" AsyncPostBackTimeout="360000" runat="server" EnablePageMethods="true" EnablePartialRendering="true">

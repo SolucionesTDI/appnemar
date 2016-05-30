@@ -24,7 +24,7 @@ public partial class Acceso_Login : System.Web.UI.Page
         try
         {
             usuario = bl.Sigin(txtmail.Text,txtpass.Text);
-            if (usuario!=null)
+            if (usuario.IdUser>0)
             {
                 
                 Session["Usuario"] = usuario;
@@ -36,13 +36,13 @@ public partial class Acceso_Login : System.Web.UI.Page
             else
             {
                 lblMensaje.Visible = true;
-                lblMensaje.Text = "Credenciales Incorrectas";
+                //lblMensaje.Text = "Credenciales Incorrectas";
             }
         }
         catch (Exception ex)
         {
             lblMensaje.Visible = true;
-            lblMensaje.Text = "Ocurrio un error al intentar Autenticar el Usuario:" + ex;
+            //lblMensaje.Text = "Ocurrio un error al intentar Autenticar el Usuario:" + ex;
         }
     }
 }

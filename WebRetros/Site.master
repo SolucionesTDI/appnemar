@@ -126,11 +126,7 @@
     <!-- /.sidebar -->
   </aside>
     <form id="form1" runat="server">
-    <div>
-        <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
-        <asp:ContentPlaceHolder id="contentBody" runat="server">  
-        </asp:ContentPlaceHolder>
-    </div>
+    
 
         <asp:ScriptManager ID="ScriptManager1" AsyncPostBackTimeout="360000" runat="server" EnablePageMethods="true" EnablePartialRendering="true">
             <Scripts>
@@ -147,6 +143,10 @@
             </Scripts>
            
         </asp:ScriptManager>
+        <div>
+            <asp:ContentPlaceHolder id="contentBody" runat="server">  
+            </asp:ContentPlaceHolder>
+        </div>
     </form>
 
     <footer class="main-footer">
