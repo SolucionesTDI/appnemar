@@ -24,8 +24,6 @@ public partial class Site : System.Web.UI.MasterPage
                 path = path.Replace("/retros/", "");
                 listMenu = bl.GetMenus(UserMaster.Perfil.IdPerfil);
                 LoadMenu();
-                
-                TextBox1.Text = path;
             }
     }
 
