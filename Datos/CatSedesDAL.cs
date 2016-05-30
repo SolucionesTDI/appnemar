@@ -27,7 +27,7 @@ namespace Datos
             {
 
 
-                using (SqlCommand command = new SqlCommand("spd_cat_sedes_ins", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_cat_sede_ins", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@descripcion", _catsedes.descripcion);
@@ -55,7 +55,7 @@ namespace Datos
         {
             try
             {
-                using (SqlCommand command = new SqlCommand("spd_cat_sedes_upd", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_cat_sede_upd", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@idsede", _catsedes.idsede);
@@ -81,7 +81,7 @@ namespace Datos
         {
             try
             {
-                using (SqlCommand command = new SqlCommand("spd_cat_sedes_del", cn.Connection))
+                using (SqlCommand command = new SqlCommand("spd_cat_sede_del", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@idsede", _catsedes.idsede);
@@ -114,10 +114,11 @@ namespace Datos
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     //command.Parameters.AddWithValue("@idpuesto", id == 0 ? (object)DBNull.Value : id);
-                    command.Parameters.AddWithValue("@tipo", "sedes");
+                    command.Parameters.AddWithValue("@tipo", "sede");
                     command.Parameters.AddWithValue("@filtro", string.IsNullOrEmpty(filtro) ? (object)DBNull.Value : filtro);
-                    SqlDataReader reader = command.ExecuteReader();
                     cn.OpenConnection();
+                    SqlDataReader reader = command.ExecuteReader();
+                  
                     while (reader.Read())
                     {
                         cat = new CatSedes();
