@@ -44,6 +44,7 @@
     <Compile Include="CatSedes.cs" />
     <Compile Include="CatStatus.cs" />
     <Compile Include="CatTemas.cs" />
+    <Compile Include="Minutas.cs" />
     <Compile Include="Perfiles.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Permisos.cs" />
