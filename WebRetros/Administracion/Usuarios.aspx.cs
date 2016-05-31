@@ -5,12 +5,15 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Negocio;
+using Entidades;
 
 public partial class Administracion_Usuarios : System.Web.UI.Page
 {
     CatSedesNegocio _catsedesneg = new CatSedesNegocio();
     CatDepartamentosNegocio _catdeptoneg = new CatDepartamentosNegocio();
     CatPuestosNegocio _catpuestosneg = new CatPuestosNegocio();
+    UsuariosBL _catusuariosneg = new UsuariosBL();
+    PerfilesNegocio _catperfilneg = new PerfilesNegocio();
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!Page.IsPostBack)
@@ -21,38 +24,91 @@ public partial class Administracion_Usuarios : System.Web.UI.Page
             txtUserName.Attributes.Add("placeholder", "Nombre");
             txtUserApellidoPaterno.Attributes.Add("placeholder", "Apellido Paterno");
             txtUserApellidoMaterno.Attributes.Add("placeholder", "Apellido Materno");
-            LoadComboSede();
-            LoadComboDepartamento();
-            LoadComboPuesto();
+            LoadComboSede("filtro");
+            LoadComboDepartamento("filtro");
+            LoadComboPuesto("filtro");
             txtNombreCompletoEmail.Attributes.Add("placeholder", "Nombre o Correo Electronico");
         }
     }
-    public void LoadComboSede(int ID=0)
+    public void LoadComboSede(string oper=null,int ID=0)
     {
-        dropFiltroSedes.DataSource = _catsedesneg.list();
-        dropFiltroSedes.DataValueField = "idsede";
-        dropFiltroSedes.DataTextField = "descripcion";
-        dropFiltroSedes.DataBind();
-        dropFiltroSedes.Items.Insert(0, new ListItem("Todas Las Sedes", "0"));
+      
+        if(oper == "filtro")
+        {
+            dropFiltroSedes.DataSource = _catsedesneg.list();
+            dropFiltroSedes.DataValueField = "idsede";
+            dropFiltroSedes.DataTextField = "descripcion";
+            dropFiltroSedes.DataBind();
+            dropFiltroSedes.Items.Insert(0, new ListItem("Todas Las Sedes", "0"));
+        }    
+        else
+        {
+            dropUserSede.DataSource = _catsedesneg.list();
+            dropUserSede.DataValueField = "idsede";
+            dropUserSede.DataTextField = "descripcion";
+            dropUserSede.DataBind();
+        }   
         dropFiltroSedes.Items.FindByValue(ID.ToString()).Selected = true;
     }
-    public void LoadComboDepartamento(int ID = 0)
+    public void LoadComboDepartamento(string oper = null, int ID = 0)
     {
-        dropFiltroDepartamento.DataSource = _catdeptoneg.list();
-        dropFiltroDepartamento.DataValueField = "iddepto";
-        dropFiltroDepartamento.DataTextField = "descripcion";
-        dropFiltroDepartamento.DataBind();
-        dropFiltroDepartamento.Items.Insert(0, new ListItem("Todos los Departamentos", "0"));
+
+        if (oper == "filtro")
+        {
+            dropFiltroDepartamento.DataSource = _catdeptoneg.list();
+            dropFiltroDepartamento.DataValueField = "iddepto";
+            dropFiltroDepartamento.DataTextField = "descripcion";
+            dropFiltroDepartamento.DataBind();
+            dropFiltroDepartamento.Items.Insert(0, new ListItem("Todos los Departamentos", "0"));
+        }
+        else
+        {
+            dropUserDepartamento.DataSource = _catdeptoneg.list();
+            dropUserDepartamento.DataValueField = "iddepto";
+            dropUserDepartamento.DataTextField = "descripcion";
+            dropUserDepartamento.DataBind();
+        }
         dropFiltroDepartamento.Items.FindByValue(ID.ToString()).Selected = true;
     }
-    public void LoadComboPuesto(int ID = 0)
+    public void LoadComboPuesto(string oper = null, int ID = 0)
     {
-        dropFiltroPuesto.DataSource = _catpuestosneg.list();
-        dropFiltroPuesto.DataValueField = "idpuesto";
-        dropFiltroPuesto.DataTextField = "descripcion";
-        dropFiltroPuesto.DataBind();
-        dropFiltroPuesto.Items.Insert(0, new ListItem("Todos los Puestos", "0"));
+       
+        if (oper == "filtro")
+        {
+            dropFiltroPuesto.DataSource = _catpuestosneg.list();
+            dropFiltroPuesto.DataValueField = "idpuesto";
+            dropFiltroPuesto.DataTextField = "descripcion";
+            dropFiltroPuesto.DataBind();
+            dropFiltroPuesto.Items.Insert(0, new ListItem("Todos los Puestos", "0"));
+        }
+        else
+        {
+            dropUserPuesto.DataSource = _catpuestosneg.list();
+            dropUserPuesto.DataValueField = "idpuesto";
+            dropUserPuesto.DataTextField = "descripcion";
+            dropUserPuesto.DataBind();
+        }
         dropFiltroPuesto.Items.FindByValue(ID.ToString()).Selected = true;
+    }
+    public void LoadComboPerfil(string oper = null, int ID = 0)
+    {
+
+        if (oper == "filtro")
+        {
+            dropFiltroPuesto.DataSource = _catpuestosneg.list();
+            dropFiltroPuesto.DataValueField = "idpuesto";
+            dropFiltroPuesto.DataTextField = "descripcion";
+            dropFiltroPuesto.DataBind();
+            dropFiltroPuesto.Items.Insert(0, new ListItem("Todos los Puestos", "0"));
+        }
+        else
+        {
+            dropUserPerfil.DataSource = _catperfilneg.list();
+            dropUserPerfil.DataValueField = "idperfil";
+            dropUserPerfil.DataTextField = "nomperfil";
+            dropUserPerfil.DataBind();
+        }
+      //  dropUserPerfil.Items.FindByValue(ID.ToString()).Selected = true;
     }
     protected void GridView_RowCommand(object sender, GridViewCommandEventArgs e)
     {
@@ -71,6 +127,24 @@ public partial class Administracion_Usuarios : System.Web.UI.Page
     }
     protected void Nuevo_Click(object sender, EventArgs e)
     {
+        UsuariosDatos catusuario = new UsuariosDatos();
+        catusuario.User = new Usuarios();
+        catusuario.User.Username = txtUserName.Text;
+        catusuario.User.Password = txtUserPassword.Text;
+        catusuario.User.Perfil = new Perfiles();
+        catusuario.User.Perfil.IdPerfil = Convert.ToInt32(dropUserPerfil.SelectedValue.ToString());
+        catusuario.NombreUser = txtUserNombre.Text;
+        catusuario.ApellidoPat = txtUserApellidoPaterno.Text;
+        catusuario.ApellidoMat = txtUserApellidoMaterno.Text;
+        catusuario.ObjSedes = new CatSedes();
+        catusuario.ObjSedes.idsede = Convert.ToInt32(dropUserSede.SelectedValue.ToString());
+        catusuario.ObjDepto = new CatDepartamentos();
+        catusuario.ObjDepto.iddepto = Convert.ToInt32(dropUserDepartamento.SelectedValue.ToString());
+        catusuario.ObjPuestos = new CatPuestos();
+        catusuario.ObjPuestos.idpuesto = Convert.ToInt32(dropUserPuesto.SelectedValue.ToString());
+        _catusuariosneg.insertUsuario(catusuario);
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalOperUsuario", "$('#ModalOperUsuario').modal('hide');", true);
+        upModalOperUsuario.Update();
     }
     protected void NuevoUsuario_Click(object sender, EventArgs e)
     {
@@ -83,6 +157,10 @@ public partial class Administracion_Usuarios : System.Web.UI.Page
         txtUserName.Text = string.Empty;
         txtUserPassword.Text = string.Empty;
         txtUserPasswordConfirma.Text = string.Empty;
+        LoadComboPerfil();
+        LoadComboSede();
+        LoadComboDepartamento();
+        LoadComboPuesto();
         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalOperUsuario", "$('#ModalOperUsuario').modal();", true);
         upModalOperUsuario.Update();
     }
