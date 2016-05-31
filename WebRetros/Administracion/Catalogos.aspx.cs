@@ -37,6 +37,10 @@ public partial class Administracion_Catalogos : System.Web.UI.Page
 
             GridViewTemas.DataSource = _cattemneg.list();
             GridViewTemas.DataBind();
+
+            txtDescripcionNuevo.Attributes.Add("placeholder", "Nombre");
+            txtDescripcionEditar.Attributes.Add("placeholder", "Nombre");
+
         }
      }
     protected void GridView_RowCommand(object sender, GridViewCommandEventArgs e)

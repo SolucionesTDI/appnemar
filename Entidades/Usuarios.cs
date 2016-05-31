@@ -14,6 +14,7 @@ namespace Entidades
         public string Password { get; set; }
         public bool Visible { get; set; }
         public Perfiles Perfil { get; set; }
+        public DateTime FechaRegistro { get; set; }
     }
 
     public class UsuariosDatos
@@ -26,6 +27,7 @@ namespace Entidades
         public CatDepartamentos ObjDepto { get; set; }
         public CatPuestos ObjPuestos { get; set; }
         public CatSedes ObjSedes { get; set; }
+        public string NombreCompleto { get; set; }
 
     }
 }

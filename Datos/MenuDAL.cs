@@ -30,22 +30,19 @@ namespace Datos
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@idperfil", idperfil);
                     cn.OpenConnection();
+                    SqlDataReader reader = command.ExecuteReader();
                     
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    while (reader.Read())
                     {
-                        while (reader.Read())
-                        {
-                            ent = new Menu();
-                            ent.Idmenu = (int)reader["idmenu"];
-                            ent.nommenu = (string)reader["nommenu"];
-                            ent.urlmenu = (string)reader["urlmenu"];
-                            ent.orden = (int)reader["orden"];
-                            ent.idpadre = (int)reader["idpadre"];
-                            ent.icono = (string)reader["icono"];
-                            list.Add(ent);
-                        }
+                        ent = new Menu();
+                        ent.Idmenu = (int)reader["idmenu"];
+                        ent.nommenu = (string)reader["nommenu"];
+                        ent.urlmenu = (string)reader["urlmenu"];
+                        ent.orden = (int)reader["orden"];
+                        ent.idpadre = (int)reader["idpadre"];
+                        ent.icono = (string)reader["icono"];
+                        list.Add(ent);
                     }
-                    
                 }
             }
             catch (SqlException ex)
