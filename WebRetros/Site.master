@@ -112,7 +112,7 @@
             <ItemTemplate>
                 <asp:Literal ID="ltrliprincipal" runat="server"></asp:Literal>
                 
-                  <a href='<%# DataBinder.Eval(Container.DataItem, "urlmenu")%>'>
+                  <a href='~/<%# DataBinder.Eval(Container.DataItem, "urlmenu")%>'>
                     <i class='<%# DataBinder.Eval(Container.DataItem, "icono")%>'></i> 
                     <span><%# DataBinder.Eval(Container.DataItem, "nommenu")%></span> 
                     <asp:Literal ID="ltrcollapse" runat="server"></asp:Literal>

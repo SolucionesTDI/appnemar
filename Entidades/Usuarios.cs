@@ -11,7 +11,21 @@ namespace Entidades
         public int IdUser { get; set; }
         public string Username { get; set; }
         public bool Activo { get; set; }
-
+        public string Password { get; set; }
+        public bool Visible { get; set; }
         public Perfiles Perfil { get; set; }
+    }
+
+    public class UsuariosDatos
+    {
+        public Usuarios User { get; set; }
+        public int IdUserDatos { get; set; }
+        public string NombreUser { get; set; }
+        public string ApellidoPat { get; set; }
+        public string ApellidoMat { get; set; }
+        public CatDepartamentos ObjDepto { get; set; }
+        public CatPuestos ObjPuestos { get; set; }
+        public CatSedes ObjSedes { get; set; }
+
     }
 }
