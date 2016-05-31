@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Catalogos.cs" />
     <Compile Include="CatDepartamentos.cs" />
     <Compile Include="CatPuestos.cs" />
     <Compile Include="CatSedes.cs" />
