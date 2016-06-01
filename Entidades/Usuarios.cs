@@ -14,12 +14,15 @@ namespace Entidades
         public string Password { get; set; }
         public bool Visible { get; set; }
         public Perfiles Perfil { get; set; }
-        public DateTime FechaRegistro { get; set; }
+        public String FechaRegistro { get; set; }
+        public int IdUserGestion { get; set; }
     }
 
     public class UsuariosDatos
     {
+        
         public Usuarios User { get; set; }
+        public int IdUser { get { return User.IdUser; } }
         public int IdUserDatos { get; set; }
         public string NombreUser { get; set; }
         public string ApellidoPat { get; set; }

@@ -248,7 +248,7 @@ public partial class Administracion_Catalogos : System.Web.UI.Page
                _catdepartamento.iddepto = Convert.ToInt32(ID.Value.ToString());
                _catdepneg.eliminarDepartamento(_catdepartamento);
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEliminar", "$('#ModalEliminar').modal('hide');", true);
-                upModalEditar.Update();
+                upModalEliminar.Update();
                 GridViewDepartamentos.DataSource = _catdepneg.list();
                 GridViewDepartamentos.DataBind();
         }
@@ -258,7 +258,7 @@ public partial class Administracion_Catalogos : System.Web.UI.Page
             _catsede.idsede = Convert.ToInt32(ID.Value.ToString());
             _catsedneg.eliminarSede(_catsede);
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEliminar", "$('#ModalEliminar').modal('hide');", true);
-            upModalEditar.Update();
+            upModalEliminar.Update();
             GridViewSedes.DataSource = _catsedneg.list();
             GridViewSedes.DataBind();
         }
@@ -268,7 +268,7 @@ public partial class Administracion_Catalogos : System.Web.UI.Page
             _catpuesto.idpuesto = Convert.ToInt32(ID.Value.ToString());
             _catpuesneg.eliminarPuesto(_catpuesto);
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEliminar", "$('#ModalEliminar').modal('hide');", true);
-            upModalEditar.Update();
+            upModalEliminar.Update();
             GridViewPuestos.DataSource = _catpuesneg.list();
             GridViewPuestos.DataBind();
         }
@@ -278,7 +278,7 @@ public partial class Administracion_Catalogos : System.Web.UI.Page
             _cattema.idtema = Convert.ToInt32(ID.Value.ToString());
             _cattemneg.eliminarTema(_cattema);
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEliminar", "$('#ModalEliminar').modal('hide');", true);
-            upModalEditar.Update();
+            upModalEliminar.Update();
             GridViewTemas.DataSource = _cattemneg.list();
             GridViewTemas.DataBind();
         }

@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CatalogosBL.cs" />
     <Compile Include="CatDepartamentosNegocio.cs" />
     <Compile Include="CatPuestosNegocio.cs" />
     <Compile Include="CatSatusNegocio.cs" />
@@ -47,6 +48,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="MenusBL.cs" />
     <Compile Include="PerfilesNegocio.cs" />
+    <Compile Include="MinutasBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsuariosBL.cs" />
   </ItemGroup>
