@@ -50,7 +50,7 @@ public partial class Administracion_Catalogos : System.Web.UI.Page
             lblMensajeEditar.Visible = false;
             int fila = Convert.ToInt32(e.CommandArgument);
             lblModalTitleEditar.Text = "Editar Departamento";
-            txtDescripcionEditar.Text = this.GridViewDepartamentos.Rows[fila].Cells[0].Text;
+            txtDescripcionEditar.Text = HttpUtility.HtmlDecode(this.GridViewDepartamentos.Rows[fila].Cells[0].Text.ToString());
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEditar", "$('#ModalEditar').modal();", true);
             upModalEditar.Update();
             ID.Value = this.GridViewDepartamentos.DataKeys[fila].Value.ToString();
@@ -71,7 +71,7 @@ public partial class Administracion_Catalogos : System.Web.UI.Page
             lblMensajeEditar.Visible = false;
             int fila = Convert.ToInt32(e.CommandArgument);
             lblModalTitleEditar.Text = "Editar Puesto";
-            txtDescripcionEditar.Text = this.GridViewPuestos.Rows[fila].Cells[0].Text;
+            txtDescripcionEditar.Text = HttpUtility.HtmlDecode(this.GridViewPuestos.Rows[fila].Cells[0].Text);
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEditar", "$('#ModalEditar').modal();", true);
             upModalEditar.Update();
             ID.Value = this.GridViewPuestos.DataKeys[fila].Value.ToString();
@@ -92,7 +92,7 @@ public partial class Administracion_Catalogos : System.Web.UI.Page
             lblMensajeEditar.Visible = false;
             int fila = Convert.ToInt32(e.CommandArgument);     
             lblModalTitleEditar.Text = "Editar Sede";
-            txtDescripcionEditar.Text = this.GridViewSedes.Rows[fila].Cells[0].Text;
+            txtDescripcionEditar.Text = HttpUtility.HtmlDecode(this.GridViewSedes.Rows[fila].Cells[0].Text);
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEditar", "$('#ModalEditar').modal();", true);
             upModalEditar.Update();
             ID.Value = this.GridViewSedes.DataKeys[fila].Value.ToString();
@@ -114,7 +114,7 @@ public partial class Administracion_Catalogos : System.Web.UI.Page
             lblMensajeEditar.Visible = false;
             int fila = Convert.ToInt32(e.CommandArgument);
             lblModalTitleEditar.Text = "Editar Tema";
-            txtDescripcionEditar.Text = this.GridViewTemas.Rows[fila].Cells[0].Text;
+            txtDescripcionEditar.Text = HttpUtility.HtmlDecode(this.GridViewTemas.Rows[fila].Cells[0].Text);
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalEditar", "$('#ModalEditar').modal();", true);
             upModalEditar.Update();
             ID.Value = this.GridViewTemas.DataKeys[fila].Value.ToString();
