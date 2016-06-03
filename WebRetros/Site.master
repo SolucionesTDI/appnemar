@@ -138,7 +138,7 @@
     <form id="form1" runat="server">
     
 
-        <asp:ScriptManager ID="ScriptManager1" AsyncPostBackTimeout="360000" runat="server" EnablePageMethods="true" EnablePartialRendering="true">
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
             <Scripts>
                 <asp:ScriptReference Path="~/assets/plugins/jQuery/jQuery-2.2.0.min.js" />
                 <asp:ScriptReference Path="~/assets/bootstrap/js/bootstrap.min.js" />
