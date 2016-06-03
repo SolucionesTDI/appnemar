@@ -45,7 +45,7 @@ HTML Tags
 
         .grid th
         {
-	       background:#E4F4BA url(../images/GridView/gridcaption.png) repeat-x !important;
+	       background:#E4F4BA url(../img/GridView/gridcaption.png) repeat-x !important;
             height:19px !important;
             border:solid 1px #99BBE8 !important;
             font-weight:normal !important;
@@ -73,7 +73,7 @@ HTML Tags
         .altoverow
         {
 	        border:10px solid #99BBE8 !important;
-            background: #efefef url(../images/GridView/rowover.gif) repeat-x left top !important;
+            background: #efefef url(../img/GridView/rowover.gif) repeat-x left top !important;
             
         }
 
@@ -82,7 +82,7 @@ HTML Tags
 	        font-size:x-small !important;
 	        text-align:right !important ;
             background-position: bottom left !important;
-            background: #D0DEF0 url(../images/cabecera_flash1_fondo.gif) repeat-x scroll left top !important;
+            background: #D0DEF0 url(../img/cabecera_flash1_fondo.gif) repeat-x scroll left top !important;
         }
 
         .gopag 
@@ -93,7 +93,7 @@ HTML Tags
 
         .pagprev
         {
-            background:transparent url(../images/GridView/previous.png) no-repeat scroll center !important;
+            background:transparent url(../img/GridView/previous.png) no-repeat scroll center !important;
             height:1.3em !important;
             width:16px !important;
             cursor:pointer !important;
@@ -102,7 +102,7 @@ HTML Tags
         
         .pagnext
         {
-            background:transparent url(../images/GridView/next.png) no-repeat scroll center !important;
+            background:transparent url(../img/GridView/next.png) no-repeat scroll center !important;
             height:1.3em !important;
             width:16px !important;
             cursor:pointer !important;
@@ -111,7 +111,7 @@ HTML Tags
 
         .pagfirst
         {
-            background:transparent url(../images/GridView/first.png) no-repeat scroll center !important;
+            background:transparent url(../img/GridView/first.png) no-repeat scroll center !important;
             height:1.3em !important;
             width:16px !important;
             cursor:pointer !important;
@@ -120,7 +120,7 @@ HTML Tags
         
         .paglast
         {
-            background:transparent url(../images/GridView/last.png) no-repeat scroll center !important;
+            background:transparent url(../img/GridView/last.png) no-repeat scroll center !important;
             height:1.3em !important;
             width:16px !important;
             cursor:pointer !important;

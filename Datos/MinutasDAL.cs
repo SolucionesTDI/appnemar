@@ -131,7 +131,7 @@ namespace Datos
                 using (SqlCommand command = new SqlCommand("SPD_SESIONES_USUARIOS_SET", cn.Connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@idusuario", obj.ObjUsuarios.IdUser);
+                    command.Parameters.AddWithValue("@idusuario", obj.ObjUsuarios.User.IdUser);
                     command.Parameters.AddWithValue("@idsesion", obj.ObjMinutas.IdSesion);
                     cn.OpenConnection();
                     command.ExecuteNonQuery();
@@ -151,14 +151,15 @@ namespace Datos
             }
         }
 
-        public void DelUsuarioMinuta(int idusuario)
+        public void DelUsuarioMinuta(MinutasUsuarios obj)
         {
             try
             {
                 using (SqlCommand command = new SqlCommand("SPD_SESIONES_USUARIOS_DEL", cn.Connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@idusersesion", idusuario);
+                    command.Parameters.AddWithValue("@idusersesion", obj.IdSesionUser);
+                    command.Parameters.AddWithValue("@idusergestiona", obj.ObjUsuarios.User.IdUser);
                     cn.OpenConnection();
                     command.ExecuteNonQuery();
                 }
@@ -170,6 +171,164 @@ namespace Datos
             catch (Exception ex)
             {
                 throw new Exception("Error BD no se pudo eliminar el usuario en la minuta " + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
+            }
+        }
+
+        public List<MinutasUsuarios> GetUsuariosSesion(MinutasUsuarios obj)
+        {
+            List<MinutasUsuarios> list = new List<MinutasUsuarios>();
+            MinutasUsuarios ent;
+            try
+            {
+                using (SqlCommand command = new SqlCommand("SPD_SESIONES_USUARIOS_GET", cn.Connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@idsesion", obj.ObjMinutas.IdSesion);
+                    
+
+                    cn.OpenConnection();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ent = new MinutasUsuarios() { ObjUsuarios = new UsuariosDatos() { User=new Usuarios() } };
+                            ent.IdSesionUser = (int)reader["idsesionuser"];
+                            ent.IdUserMinuta = (int)reader["idusuario"];
+                            ent.ObjUsuarios.NombreCompleto = (string)reader["nombrecompleto"];
+                            list.Add(ent);
+                        }
+                    }
+
+
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error BD No se pudo obtener la lista de usuarios de la sesion " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error code No se pudo obtener la lista de usuarios de la sesion" + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
+            }
+            return list;
+        }
+
+        public List<MinutasAcuerdos> GetAcuerdos(MinutasAcuerdos obj)
+        {
+            List<MinutasAcuerdos> list = new List<MinutasAcuerdos>();
+            MinutasAcuerdos ent;
+            try
+            {
+                using (SqlCommand command = new SqlCommand("SPD_SESIONES_ACUERDOS_GET", cn.Connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@idsesion", obj.ObjMinutas.IdSesion);
+                    command.Parameters.AddWithValue("@idusuariosesion", obj.ObjUserSesion.IdUserSesion);
+                    command.Parameters.AddWithValue("@idacuerdo", obj.IdAcuerdo==0 ? (object)DBNull.Value : obj.IdAcuerdo);
+                    command.Parameters.AddWithValue("@idusuariomostrar", obj.ObjUserSesion.IdUserMostrar==0 ? (object)DBNull.Value :obj.ObjUserSesion.IdUserMostrar);
+                    
+                    cn.OpenConnection();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ent = new MinutasAcuerdos() { ObjMinutas = new Minutas() { ObjStatus = new CatStatus() }
+                                        , ObjUserSesion = new UsuariosDatos() { User =new Usuarios() }
+                                        ,ObjTipoacuerdo=new CatTipoAcuerdo() };
+                            ent.IdAcuerdo = (int)reader["idacuerdo"];
+                            ent.ObjMinutas.IdSesion = (int)reader["idsesion"];
+                            ent.FechaIni = (DateTime)reader["fechaini"];
+                            ent.FechaFin = (DateTime)reader["fechafin"];
+                            ent.Descripcion = (string)reader["descripcion"];
+                            ent.FechaRegistro = (DateTime)reader["fecharegistro"];
+                            ent.FechaIniReal = reader["fechaini_real"] == DBNull.Value ? null : (DateTime?)(DateTime)reader["fechaini_real"];
+                            ent.FechaFinReal = reader["fechafin_real"] == DBNull.Value ? null : (DateTime?)(DateTime)reader["fechafin_real"];
+                            ent.ObjMinutas.ObjStatus.idstatus = (int)reader["idstatus"];
+                            ent.ObjMinutas.ObjStatus.nomstatus = (string)reader["nomstatus"];
+                            ent.IdUserMinuta = (int)reader["idusuario"];
+                            ent.ObjUserSesion.User.Username = (string)reader["username"];
+                            ent.ObjUserSesion.NombreCompleto = (string)reader["nombrecompleto"];
+                            ent.ObjTipoacuerdo.IdTipoAcuerdo = (int)reader["idtipoacuerdo"];
+                            ent.ObjTipoacuerdo.TipoAcuerdo = (string)reader["nomtipoacuerdo"];
+                            ent.Diasentrega = (int)reader["diasentrega"];
+                            ent.TiempoEntrega = (string)reader["tiempoentrega"];
+                            ent.ObjUserSesion.IdUserSesion = (int)reader["idusuariosesion"];
+                            list.Add(ent);
+                        }
+                    }
+
+
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error BD No se pudo obtener la lista de acuerdos " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error code No se pudo obtener la lista de acuerdos " + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
+            }
+            return list;
+        }
+
+        public void InsAcuerdos(MinutasAcuerdos obj)
+        {
+            try
+            {
+                using (SqlCommand command = new SqlCommand("SPD_SESIONES_ACUERDOS_SET", cn.Connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@ARRAYACUERDOS", obj.ArrayAcuerdos);
+                    cn.OpenConnection();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error BD no se pudo agregar el acuerdo " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error BD no se pudo agregar el acuerdo " + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
+            }
+        }
+
+        public void DelAcuerdo(MinutasAcuerdos obj)
+        {
+            try
+            {
+                using (SqlCommand command = new SqlCommand("SPD_SESIONES_ACUERDOS_DEL", cn.Connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@idacuerdo", obj.IdAcuerdo);
+                    command.Parameters.AddWithValue("@idusuario", obj.ObjUserSesion.User.IdUser);
+                    cn.OpenConnection();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error BD no se pudo eliminar el ACUERDO " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error BD no se pudo eliminar el ACUERDO " + ex.Message);
             }
             finally
             {

@@ -21,6 +21,8 @@ namespace Entidades
     {
         public Usuarios User { get; set; }
         public int IdUserDatos { get; set; }
+        public int IdUserMostrar { get; set; }
+        public int IdUserSesion { get; set; }
         public string NombreUser { get; set; }
         public string ApellidoPat { get; set; }
         public string ApellidoMat { get; set; }

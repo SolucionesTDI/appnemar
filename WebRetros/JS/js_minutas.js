@@ -19,7 +19,10 @@
     
     $("[data-mask]").inputmask();
 
-    
+    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+      checkboxClass: 'icheckbox_flat-green',
+      radioClass: 'iradio_flat-green'
+    });
 
 }
 
@@ -56,6 +59,46 @@ function validaMinuta()
     }
     else
     {
+        return true;
+    }
+}
+
+function validarparticipante()
+{
+    var msj = "";
+    if ($("#hd_idsesion").val() == "") {
+        msj += "<div class='alert alert-warning'>Antes de ingresar a los participantes es necesario crear la sesión</div>";
+    }
+    
+    if ($("#ddlparticipantes").val() == "0" || $("#ddlparticipantes").val() == "") {
+        msj += "<div class='alert alert-warning'>Seleccione un participante válido</div>";
+    }
+
+    if (msj != "") {
+        bootbox.alert(msj);
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+function validaAcuerdo()
+{
+    var msj = "";
+    if ($("#txtfechai_b").val() == "" || $("#txtfechaf_b").val() == "") {
+        msj += "<div class='alert alert-warning'>Ingrese un rango de fecha válido</div>";
+    }
+
+    if ($("#txtdescripcionacuerdo").val() == "" ) {
+        msj += "<div class='alert alert-warning'>Agregue la descripción del acuerdo</div>";
+    }
+
+    if (msj != "") {
+        bootbox.alert(msj);
+        return false;
+    }
+    else {
         return true;
     }
 }
