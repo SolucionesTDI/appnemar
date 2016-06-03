@@ -42,7 +42,7 @@
         routes.MapPageRoute("IndexApp", "inicio", "~/Inicio.aspx");
         routes.MapPageRoute("CatalogosApp", "admin/catalogos", "~/Administracion/Catalogos.aspx");
         routes.MapPageRoute("UsuariosApp", "admin/usuarios", "~/Administracion/Usuarios.aspx");
-        routes.MapPageRoute("UsuariosApp", "admin/perfiles", "~/Administracion/Perfiles.aspx");
+        routes.MapPageRoute("PerfilesApp", "admin/perfiles", "~/Administracion/Perfiles.aspx");
         
     }
        
