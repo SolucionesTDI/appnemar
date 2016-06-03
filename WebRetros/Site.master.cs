@@ -78,22 +78,14 @@ public partial class Site : System.Web.UI.MasterPage
                         List<Entidades.Menu> menuhijo = listMenu.Where(x => x.idpadre == parentId).ToList();
                         if (menuhijo.Count > 0)
                         {
-                            sb.Append("<li><a href='" + ResolveUrl("~/" + item.urlmenu) + "'><i class='" + item.icono + "'></i>" + item.nommenu + "<i class='fa fa-angle-left pull-right'></i></a>");
+                            sb.Append("<li><a href='" + item.urlmenu + "'><i class='" + item.icono + "'></i>" + item.nommenu + "<i class='fa fa-angle-left pull-right'></i></a>");
                           
                         }
                         else
                         {
                             if (item.urlmenu == path)
-                            {
                                 active = "active";
-                                lip.Clear();
-                                lip.Append("<li class='treeview active'>");
-                            }
-                            else
-                            {
-                                active = "";
-                            }
-                            sb.Append("<li class=" + active + "><a href='" + ResolveUrl("~/" + item.urlmenu) + "'><i class='" + item.icono + "'></i>" + item.nommenu + " </a>");
+                            sb.Append("<li class="+active+"><a href='" + item.urlmenu + "'><i class='" + item.icono + "'></i>" + item.nommenu + " </a>");
 
                         }
                             
@@ -125,16 +117,14 @@ public partial class Site : System.Web.UI.MasterPage
                 string active = "";
                 if (item.urlmenu == path)
                     active = "active";
-                else
-                    active = "";
                 if (childRow.Count > 0)
                 {
-                    sb.Append("<li><a  href='" + ResolveUrl("~/" + item.urlmenu) + "'><i class='" + item.icono + "'></i>" + item.nommenu + "<i class='fa fa-angle-left pull-right'></i></a>");
+                    sb.Append("<li><a href='" + item.urlmenu + "'><i class='" + item.icono + "'></i>" + item.nommenu + "<i class='fa fa-angle-left pull-right'></i></a>");
                           
                 }
                 else
                 {
-                    sb.Append("<li class=" + active + "><a href='" + ResolveUrl("~/" + item.urlmenu) + "'><i class='" + item.icono + "'></i>" + item.nommenu + " </a>");
+                    sb.Append("<li class="+active+"><a href='" + item.urlmenu + "'><i class='" + item.icono + "'></i>" + item.nommenu + " </a>");
                 }
                 CreateChild(sb, childId, childTitle, childRow);
                 sb.Append("</li>");

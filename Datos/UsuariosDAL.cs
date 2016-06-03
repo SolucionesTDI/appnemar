@@ -69,7 +69,7 @@ namespace Datos
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@username", _catusuariosdatos.User.Username);
                     command.Parameters.AddWithValue("@password", _catusuariosdatos.User.Password);
-                    command.Parameters.AddWithValue("@usergestiono", _catusuariosdatos.User.IdUser);
+                    command.Parameters.AddWithValue("@usergestiono", _catusuariosdatos.User.IdUserGestion);
                     command.Parameters.AddWithValue("@idperfil", _catusuariosdatos.User.Perfil.IdPerfil);
                     command.Parameters.AddWithValue("@nombre", _catusuariosdatos.NombreUser);
                     command.Parameters.AddWithValue("@appat", _catusuariosdatos.ApellidoPat);
@@ -84,11 +84,11 @@ namespace Datos
             }
             catch (SqlException ex)
             {
-                throw new Exception("No se pudo insertar el registro del departamento" + ex.Message);
+                throw new Exception("No se pudo insertar el registro" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw new Exception("No se pudo insertar el registro del departamento" + ex.Message);
+                throw new Exception("No se pudo insertar el registro" + ex.Message);
             }
             finally
             {
@@ -106,8 +106,9 @@ namespace Datos
                 using (SqlCommand command = new SqlCommand("spd_usuarios_upd", cn.Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@idusuario", _catusuariosdatos.User.IdUser);
                     command.Parameters.AddWithValue("@username", _catusuariosdatos.User.Username);
-                    command.Parameters.AddWithValue("@idperfil", _catusuariosdatos.User.Perfil);
+                    command.Parameters.AddWithValue("@idperfil", _catusuariosdatos.User.Perfil.IdPerfil);
                     command.Parameters.AddWithValue("@nombre", _catusuariosdatos.NombreUser);
                     command.Parameters.AddWithValue("@appat", _catusuariosdatos.ApellidoPat);
                     command.Parameters.AddWithValue("@apmat", _catusuariosdatos.ApellidoMat);
@@ -120,11 +121,11 @@ namespace Datos
             }
             catch (SqlException ex)
             {
-                throw new Exception("No se pudo modificar el registro del departamento" + ex.Message);
+                throw new Exception("No se pudo modificar el registro" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw new Exception("No se pudo modificar el registro del departamento" + ex.Message);
+                throw new Exception("No se pudo modificar el registro" + ex.Message);
             }
             finally
             {
@@ -147,11 +148,11 @@ namespace Datos
             }
             catch (SqlException ex)
             {
-                throw new Exception("No se pudo eliminar el registro del departamento" + ex.Message);
+                throw new Exception("No se pudo eliminar el registro" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw new Exception("No se pudo eliminar el registro del departamento" + ex.Message);
+                throw new Exception("No se pudo eliminar el registro" + ex.Message);
             }
             finally
             {
@@ -174,11 +175,11 @@ namespace Datos
             }
             catch (SqlException ex)
             {
-                throw new Exception("No se pudo eliminar el registro del departamento" + ex.Message);
+                throw new Exception("No se pudo eliminar el registro" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw new Exception("No se pudo eliminar el registro del departamento" + ex.Message);
+                throw new Exception("No se pudo eliminar el registro" + ex.Message);
             }
             finally
             {
@@ -187,7 +188,7 @@ namespace Datos
         }
 
 
-        public List<UsuariosDatos> obtenerUsuarios(int idsede=0, int iddepto=0, int idpuesto=0, int id=0,string filtro = null)
+        public List<UsuariosDatos> obtenerUsuarios(int idsede=0, int iddepto=0, int idpuesto=0, int idperfil=0, int id=0,string filtro = null)
         {
             List<UsuariosDatos> list = new List<UsuariosDatos>();
             UsuariosDatos _catusuariosdatos;
@@ -198,40 +199,49 @@ namespace Datos
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@id", id == 0 ? (object)DBNull.Value : id);
                     command.Parameters.AddWithValue("@filtro", string.IsNullOrEmpty(filtro) ? (object)DBNull.Value : filtro);
-                    command.Parameters.AddWithValue("@idsede", id == 0 ? (object)DBNull.Value : idsede);
-                    command.Parameters.AddWithValue("@idepto", id == 0 ? (object)DBNull.Value : iddepto);
-                    command.Parameters.AddWithValue("@idpuesto", id == 0 ? (object)DBNull.Value : idpuesto);
+                    command.Parameters.AddWithValue("@idsede", idsede == 0 ? (object)DBNull.Value : idsede);
+                    command.Parameters.AddWithValue("@iddepto", iddepto == 0 ? (object)DBNull.Value : iddepto);
+                    command.Parameters.AddWithValue("@idpuesto", idpuesto == 0 ? (object)DBNull.Value : idpuesto);
+                    command.Parameters.AddWithValue("@idperfil", idperfil == 0 ? (object)DBNull.Value : idperfil);
+                    
                     cn.OpenConnection();
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
+                        DateTime fechatemp;
                         _catusuariosdatos = new UsuariosDatos();
+                        _catusuariosdatos.User = new Usuarios();
                         _catusuariosdatos.User.IdUser = (int)reader["idusuario"];
                         _catusuariosdatos.User.Username = (string)reader["username"];
-                        _catusuariosdatos.User.Perfil.IdPerfil = (int)reader["ideperfil"];
+                        _catusuariosdatos.User.Perfil = new Perfiles();
+                        _catusuariosdatos.User.Perfil.IdPerfil = (int)reader["idperfil"];
                         _catusuariosdatos.User.Perfil.NomPerfil = (String)reader["nomperfil"];
                         _catusuariosdatos.NombreUser = (string)reader["nombre"];
                         _catusuariosdatos.ApellidoPat = (string)reader["appat"];
                         _catusuariosdatos.ApellidoMat = (string)reader["apmat"];
                         _catusuariosdatos.NombreCompleto = (string)reader["nombrecompleto"];
+                        _catusuariosdatos.ObjSedes = new CatSedes();
                         _catusuariosdatos.ObjSedes.idsede = (int)reader["idsede"];
                         _catusuariosdatos.ObjSedes.descripcion = (string)reader["nomsede"];
+                        _catusuariosdatos.ObjDepto = new CatDepartamentos();
                         _catusuariosdatos.ObjDepto.iddepto = (int)reader["iddepto"];
                         _catusuariosdatos.ObjDepto.descripcion = (string)reader["nomdepto"];
+                        _catusuariosdatos.ObjPuestos = new CatPuestos();
                         _catusuariosdatos.ObjPuestos.idpuesto = (int)reader["idpuesto"];
                         _catusuariosdatos.ObjPuestos.descripcion = (string)reader["nompuesto"];
-                        _catusuariosdatos.User.FechaRegistro = (DateTime)reader["fecharegistro"];
+                        fechatemp  = (DateTime) (reader["fecharegistro"]);
+                        _catusuariosdatos.User.FechaRegistro = fechatemp.ToShortDateString();
                         list.Add(_catusuariosdatos);
                     }
                 }
             }
             catch (SqlException ex)
             {
-                throw new Exception("No se pudo obtener registros del catalogo de departamentos" + ex.Message);
+                throw new Exception("No se pudo obtener registros" + ex.Message);
             }
             catch (Exception ex)
             {
-                throw new Exception("No se pudo obtener registros del catalogo de departamentos" + ex.Message);
+                throw new Exception("No se pudo obtener registros" + ex.Message);
             }
             finally
             {

@@ -81,12 +81,12 @@ namespace Negocio
 
         }
 
-        public List<UsuariosDatos> list(int idsede=0,int iddepto=0,int idpuesto=0, int idusuario=0,string filtro = null)
+        public List<UsuariosDatos> list(int idsede=0,int iddepto=0,int idpuesto=0, int idperfil=0, int idusuario=0,string filtro = null)
         {
             try
             {
                 UsuariosDAL _catusuariosdal = new UsuariosDAL();
-                return _catusuariosdal.obtenerUsuarios(idsede, iddepto, idpuesto, idusuario, filtro);
+                return _catusuariosdal.obtenerUsuarios(idsede, iddepto, idpuesto, idperfil,idusuario,filtro);
             }
             catch (Exception ex)
             {

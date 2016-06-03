@@ -20,7 +20,7 @@ namespace Datos
 
         public int InsMinuta(Minutas obj)
         {
-            int idminuta=0;
+            int idminuta;
             try
             {
                 using (SqlCommand command = new SqlCommand("SPD_SESIONES_SET", cn.Connection))
@@ -39,9 +39,10 @@ namespace Datos
                     SqlParameter ParamEstatus = new SqlParameter("@idnew", DbType.Int32);
                     ParamEstatus.Direction = ParameterDirection.ReturnValue;
                     command.Parameters.Add(ParamEstatus);
-                    cn.OpenConnection();
                     command.ExecuteNonQuery();
                     idminuta = Convert.ToInt32(command.Parameters["@idnew"].Value);
+                    cn.OpenConnection();
+
                 }
             }
             catch (SqlException ex)
@@ -82,7 +83,7 @@ namespace Datos
                     {
                         while (reader.Read())
                         {
-                            ent = new Minutas() { ObjTemas = new CatTemas(), ObjUsuarios = new UsuariosDatos() { User=new Usuarios() }, ObjTipoSesion=new CatTipoSesion(), ObjStatus=new CatStatus() };
+                            ent = new Minutas() { };
                             ent.IdSesion = (int)reader["idsesion"];
                             ent.Objetivo = (string)reader["objetivo"];
                             ent.Descripcion = (string)reader["descripcion"];
