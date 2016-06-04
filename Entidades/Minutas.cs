@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Data;
 namespace Entidades
 {
     public class Minutas
@@ -33,7 +33,8 @@ namespace Entidades
     {
         public int IdSesionUser { get; set; }
         public Minutas ObjMinutas { get; set; }
-        public Usuarios ObjUsuarios { get; set; }
+        public UsuariosDatos ObjUsuarios { get; set; }
+        public int IdUserMinuta { get; set; }
 
     }
 
@@ -50,6 +51,10 @@ namespace Entidades
         public CatTipoAcuerdo ObjTipoacuerdo { get; set; }
         public int Diasentrega { get; set; }
         public string TiempoEntrega { get; set; }
+        public DateTime FechaRegistro { get; set; }
+
+        public DataTable ArrayAcuerdos { get; set; }
+        public int IdUserMinuta { get; set; }
 
     }
 

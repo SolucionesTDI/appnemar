@@ -53,11 +53,59 @@ namespace Negocio
             }
         }
 
-        public void DelUsuarioMinuta(int idusuario)
+        public void DelUsuarioMinuta(MinutasUsuarios obj)
         {
             try
             {
-                dal.DelUsuarioMinuta(idusuario);
+                dal.DelUsuarioMinuta(obj);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<MinutasUsuarios> GetUsuariosSesion(MinutasUsuarios obj)
+        {
+            try
+            {
+                return dal.GetUsuariosSesion(obj);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<MinutasAcuerdos> GetAcuerdos(MinutasAcuerdos obj)
+        {
+            try
+            {
+                return dal.GetAcuerdos(obj);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void InsAcuerdos(MinutasAcuerdos obj)
+        {
+            try
+            {
+                dal.InsAcuerdos(obj);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void DelAcuerdo(MinutasAcuerdos obj)
+        {
+            try
+            {
+                dal.DelAcuerdo(obj);
             }
             catch (Exception ex)
             {
