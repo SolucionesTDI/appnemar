@@ -101,6 +101,8 @@ public partial class Minutas_Nuevaminuta : System.Web.UI.Page
         usm.ObjUsuarios.User.IdUser = Convert.ToInt32(ddlparticipantes.SelectedValue);
 
         bl.InsUsuariosbyMinuta(usm);
+        ddlparticipantes.ClearSelection();
+        ddlparticipantes.SelectedIndex = 0;
         LoadGridParticipantes();
     }
 
@@ -248,5 +250,22 @@ public partial class Minutas_Nuevaminuta : System.Web.UI.Page
             GridView gdvAcuerdos = e.Row.FindControl("gdvAcuerdo") as GridView;
             LoadAcuerdos(gdvAcuerdos, id);
         }
+    }
+   
+    protected void gdvAcuerdo_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        
+         int id = Convert.ToInt32(gdvAcuerdo.DataKeys[e.NewEditIndex].Values[1]);
+        MinutasBL bl = new MinutasBL();
+        MinutasAcuerdos min = new MinutasAcuerdos() { ObjMinutas = new Minutas(), ObjTipoacuerdo = new CatTipoAcuerdo(), ObjUserSesion = new UsuariosDatos() };
+        min.ObjMinutas.IdSesion = Convert.ToInt32(hd_idsesion.Value);
+        min.ObjUserSesion.IdUserSesion = Convert.ToInt32(Session["IdUser"]);
+        min.IdAcuerdo = id;
+        min.ObjUserSesion.IdUserMostrar = 0;
+
+        min = bl.GetAcuerdosByFolio(min);
+
+        txtfechai_b.Text = min.FechaIni.ToString();
+
     }
 }

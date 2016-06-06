@@ -1,25 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Nuevaminuta.aspx.cs" Inherits="Minutas_Nuevaminuta" MasterPageFile="~/Site.master" %>
 
 <asp:Content ContentPlaceHolderID="contentBody" runat="server" ID="contNuevaminuta">
-    <asp:UpdateProgress ID="UpdateProgress1" runat="server">
-        <ProgressTemplate>
-            <div class="col-md-12">
-              <div class="box box-info box-solid">
-                <div class="box-header">
-                  <h3 class="box-title">Procesando información. </h3>
-                </div>
-                <div class="box-body">
-                  Espere un momento porfavor...
-                </div>
-                <div class="overlay">
-                  <i class="fa fa-refresh fa-spin"></i>
-                </div>
-              </div>
-            </div>
-        </ProgressTemplate>
-    </asp:UpdateProgress>
-    <asp:UpdatePanel ID="UpdatePanel6" runat="server">
-        <ContentTemplate>
+   
     <div class="content-wrapper">
         <section class="content-header">
           <h1>
@@ -51,7 +33,7 @@
                                     <label>Seleccionar Temática  </label>
                                     
                                     <div class="input-group">
-                                      <asp:DropDownList CssClass="form-control select2" ID="ddltema" runat="server"></asp:DropDownList>
+                                      <asp:DropDownList CssClass="form-control select2" AutoPostBack="false" ID="ddltema" runat="server"></asp:DropDownList>
                                       <div class="input-group-addon">
                                         <span id="stema" class="fa fa-plus-circle addcat" data-titulo="Agregar Tema" data-tabla="temas"></span>
                                       </div>
@@ -112,7 +94,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>Tipo de Sesión</label>
-                                    <asp:DropDownList ID="ddltiposesion" CssClass="form-control" runat="server"></asp:DropDownList>
+                                    <asp:DropDownList ID="ddltiposesion" AutoPostBack="false" CssClass="form-control" runat="server"></asp:DropDownList>
                                 </div>
                             </div>
                         </div>
@@ -121,6 +103,7 @@
                 </ContentTemplate>
                 <Triggers>
                     <asp:AsyncPostBackTrigger ControlID="btnGuardarSesion" EventName="click" />
+                    <asp:AsyncPostBackTrigger ControlID="btnaddParticipante" EventName="click" />
                 </Triggers>
                 </asp:UpdatePanel>
                 <div class="box-footer">
@@ -128,7 +111,7 @@
                 </div> 
             </div>
             <div class="row">     
-                <div class="col-sm-12">
+                <div class="col-sm-7">
                     <div class="box box-default">
                         <div class="box-header with-border">
                           <h3 class="box-title">Paso 2. Agregar Participante(s)</h3>
@@ -146,7 +129,7 @@
                                             <div class="input-group">
                                               <asp:UpdatePanel ID="UpdatePanel5" style="display:inline" runat="server">
                                                   <ContentTemplate>
-                                              <asp:DropDownList CssClass="form-control select2" ID="ddlparticipantes" runat="server"></asp:DropDownList>
+                                              <asp:DropDownList CssClass="form-control select2" ID="ddlparticipantes" AutoPostBack="false" runat="server"></asp:DropDownList>
                                               </ContentTemplate>
                                               <Triggers>
                                                   <asp:AsyncPostBackTrigger ControlID="btnaddParticipante" EventName="click" />
@@ -162,7 +145,8 @@
                                     <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                                     <ContentTemplate>
                                     <div class="col-sm-12 clearfix">
-                                        <asp:GridView CssClass="grid table table-striped" ID="gdvParticipantes" runat="server"
+                                        <div class="table-responsive">
+                                        <asp:GridView CssClass="table table-striped datagrid" ID="gdvParticipantes" runat="server"
                                              AutoGenerateColumns="false" AllowPaging="false" DataKeyNames="IdSesionUser,IdUserMinuta" 
                                              OnRowDeleting="gdvParticipantes_RowDeleting"
                                              OnRowDataBound="gdvParticipantes_RowDataBound">
@@ -177,12 +161,19 @@
                                                         <asp:Label runat="server" ID="lblusuario"><%# DataBinder.Eval(Container.DataItem, "ObjUsuarios.NombreCompleto")%></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Acciones">
+                                                <asp:TemplateField HeaderText="Acciones" HeaderStyle-HorizontalAlign="Center" HeaderStyle-Width="40">
                                                     <ItemTemplate>
-                                                        <asp:LinkButton CommandName="Delete" OnClientClick="if(confirm('Está seguro de eliminar al participante ?')){return true}else{return false}" CssClass="col-sm-1" ToolTip="Eliminar" data-toogle="tooltip"
-                                                            ID="btndelcancel" runat="server">
-                                                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
-                                                        </asp:LinkButton>
+                                                        <asp:UpdatePanel ID="UpdatePanel6" runat="server">
+                                                            <ContentTemplate>
+                                                                <asp:LinkButton CommandName="Delete" OnClientClick="if(confirm('Está seguro de eliminar al participante ?')){return true}else{return false}" CssClass="col-sm-1" ToolTip="Eliminar" data-toogle="tooltip"
+                                                                    ID="btndelcancel" runat="server">
+                                                                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
+                                                                </asp:LinkButton>
+                                                            </ContentTemplate>
+                                                            <Triggers>
+                                                                <asp:AsyncPostBackTrigger ControlID="btndelcancel" EventName="click" />
+                                                            </Triggers>
+                                                        </asp:UpdatePanel>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField>
@@ -192,9 +183,9 @@
                                                                 <asp:UpdatePanel ID="UpdatePanel4" runat="server">
                                                                     <ContentTemplate>
                                                                 <div class="table-responsive">
-                                                                    <asp:GridView CssClass="table table-striped" ID="gdvAcuerdo" runat="server"
+                                                                    <asp:GridView BorderWidth="0" CssClass="datagrid table table-striped" ID="gdvAcuerdo" runat="server"
                                                                              AutoGenerateColumns="false" AllowPaging="false" DataKeyNames="IdAcuerdo,IdUserMinuta" 
-                                                                             OnRowDeleting="gdvAcuerdo_RowDeleting">
+                                                                             OnRowDeleting="gdvAcuerdo_RowDeleting" OnRowEditing="gdvAcuerdo_RowEditing">
                                                                         <Columns>
                                                                             <asp:TemplateField HeaderText="Fecha Inicial">
                                                                                 <ItemTemplate>
@@ -211,12 +202,25 @@
                                                                                     <asp:Label runat="server" ID="lbldescrip"><%# DataBinder.Eval(Container.DataItem, "Descripcion")%></asp:Label>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Acciones">
+                                                                            <asp:TemplateField HeaderText="Acciones" HeaderStyle-HorizontalAlign="Center" HeaderStyle-Width="40">
                                                                                 <ItemTemplate>
+                                                                                    <asp:UpdatePanel ID="UpdatePanel6" runat="server">
+                                                                                <ContentTemplate>
                                                                                     <asp:LinkButton CommandName="Delete" OnClientClick="if(confirm('Está seguro de eliminar el acuerdo ?')){return true}else{return false}" CssClass="col-sm-1" ToolTip="Eliminar" data-toogle="tooltip"
                                                                                         ID="btndelacuerdo" runat="server">
                                                                                                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
                                                                                     </asp:LinkButton>
+                                                                                    <asp:LinkButton CommandName="Edit"
+                                                                                        CssClass="col-sm-1" ToolTip="Editar Acuerdo" data-toogle="tooltip"
+                                                                                        ID="linkeditar" runat="server">
+                                                                                                    <span class="fa fa-pencil" aria-hidden="true"></span> 
+                                                                                    </asp:LinkButton>
+                                                                                </ContentTemplate>
+                                                                                    <Triggers>
+                                                                                        <asp:AsyncPostBackTrigger ControlID="btndelacuerdo" EventName="click" />
+                                                                                        <asp:AsyncPostBackTrigger ControlID="linkeditar" EventName="click" />
+                                                                                    </Triggers>
+                                                                                </asp:UpdatePanel>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                         </Columns>
@@ -230,13 +234,13 @@
                                                 </asp:TemplateField>
                                             </Columns>
                                         </asp:GridView>
+                                        </div>
                                     </div>
                                     </ContentTemplate>
                                     <Triggers>
                                         <asp:AsyncPostBackTrigger ControlID="btnGuardarSesion" EventName="click" />
                                         <asp:AsyncPostBackTrigger ControlID="btnaddParticipante" EventName="click" />
                                         <asp:AsyncPostBackTrigger ControlID="btnGuardarAcuerdo" EventName="click" />
-                                        <asp:AsyncPostBackTrigger ControlID="gdvParticipantes" EventName="RowDeleting" />
                                     </Triggers>
                                     </asp:UpdatePanel>
                                 </div>
@@ -244,10 +248,11 @@
                         </div>
                         
                         <div class="box-footer">
+                            <p class="text-yellow">Seleccione al menos un participante para poder agregar los acuerdos</p>
                         </div> 
                     </div>
                 </div>
-                <div class="col-sm-12">
+                <div class="col-sm-5">
                      <div class="box box-default">
                         <div class="box-header with-border">
                           <h3 class="box-title">Paso 3. Acuerdos de Mejora Continua</h3> 
@@ -261,7 +266,7 @@
                                  <div class="box-body">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <label>Fecha inicial y final</label>
                                                     <div class="input-group">
@@ -294,6 +299,7 @@
                     </div>
                 </div>
             </div> 
+
             <%--<div class="row">
                 <div class="col-sm-12">
                     <asp:UpdatePanel ID="UpdatePanel3" runat="server">
@@ -310,6 +316,5 @@
         </section>
     </div>
     <script src="<%=ResolveClientUrl("~/JS/js_minutas.js") %>" type="text/javascript"></script>
-     </ContentTemplate>
-    </asp:UpdatePanel>
+    
 </asp:Content>
