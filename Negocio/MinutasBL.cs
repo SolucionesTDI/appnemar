@@ -29,7 +29,7 @@ namespace Negocio
             }
         }
 
-        public List<Minutas> GetMinutas(Minutas obj)
+        public List<Minutas> GetMinutas(MinutasFiltros obj)
         {
             try
             {
@@ -106,6 +106,18 @@ namespace Negocio
             try
             {
                 dal.DelAcuerdo(obj);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public MinutasAcuerdos GetAcuerdosByFolio(MinutasAcuerdos obj)
+        {
+            try
+            {
+                return dal.GetAcuerdosByFolio(obj);
             }
             catch (Exception ex)
             {

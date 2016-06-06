@@ -69,4 +69,15 @@ namespace Entidades
         public CatSedes ObjStatuscoment { get; set; }
 
     }
+
+    public class MinutasFiltros
+    {
+        public string TemasCadena { get; set; }
+        public DateTime? FechaIni { get; set; }
+        public DateTime? FechaFin { get; set; }
+        public string UsuariosCadena { get; set; }
+        public string TipoSesionCadena { get; set; }
+        public string StatusCadena { get; set; }
+        public string TiempoEntregaCadena { get; set; }
+    }
 }
