@@ -10,6 +10,8 @@ namespace Entidades
     {
         public int IdPerfil { get; set; }
         public string NomPerfil { get; set; }
+        public int IdUsuario { get; set; }
+        public DateTime FechaRegistro { get; set; }
         public bool Activo { get; set; }
     }
 }

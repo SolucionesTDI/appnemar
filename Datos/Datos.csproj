@@ -46,6 +46,7 @@
     <Compile Include="CatStatusDAL.cs" />
     <Compile Include="CatTemasDAL.cs" />
     <Compile Include="MenuDAL.cs" />
+    <Compile Include="MenuPerfilDAL.cs" />
     <Compile Include="MinutasDAL.cs" />
     <Compile Include="PerfilesDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

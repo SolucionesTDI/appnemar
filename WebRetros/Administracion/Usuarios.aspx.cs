@@ -350,6 +350,7 @@ public partial class Administracion_Usuarios : System.Web.UI.Page
         {
             lblUserPasswordCambio.Visible = false;
             lblUserPasswordCambioConfirma.Visible = false;
+            upModalPassword.Update();
             if (txtUserPasswordCambio.Text == txtUserPasswordCambioConfirma.Text)
             {
                 UsuariosDatos _catusuario = new UsuariosDatos();
