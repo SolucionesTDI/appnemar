@@ -12,19 +12,43 @@ using System.Data;
 public partial class Site : System.Web.UI.MasterPage
 {
     public Usuarios UserMaster;
+   
     List<Entidades.Menu> listMenu;
     string path;
     protected void Page_Load(object sender, EventArgs e)
     {
         ValidarSession();
         MenusBL bl = new MenusBL();
-            if(!IsPostBack)
+        UsuariosBL userbl = new UsuariosBL();
+              if (!IsPostBack)
+        {
+           
+            path = HttpContext.Current.Request.Url.AbsolutePath;
+            path = path.Replace("/retros/", "");
+            listMenu = bl.GetMenus(UserMaster.Perfil.IdPerfil);
+            LoadMenu();
+          
+            List<UsuariosDatos> _lstusuariodatos = new List<UsuariosDatos>();
+            _lstusuariodatos = userbl.list(0, 0, 0, 0,(int) Session["IdUser"]);
+            if (_lstusuariodatos.Count == 0)
             {
-                path = HttpContext.Current.Request.Url.AbsolutePath;
-                path = path.Replace("/retros/", "");
-                listMenu = bl.GetMenus(UserMaster.Perfil.IdPerfil);
-                LoadMenu();
+                nombreusuariousermenu.Text = "Soporte";
+                nombredeusuariodropmenu.Text = "Soporte";
+                perfilusuariodropmenu.Text = ((Usuarios)Session["Usuario"]).Perfil.NomPerfil;
+                nombreusuarioleftmenu.Text = "Soporte";
             }
+            else
+            {
+                nombreusuariousermenu.Text = _lstusuariodatos[0].NombreUser;
+                nombredeusuariodropmenu.Text = _lstusuariodatos[0].NombreUser;
+                perfilusuariodropmenu.Text = _lstusuariodatos[0].User.Perfil.NomPerfil;
+                nombreusuarioleftmenu.Text = _lstusuariodatos[0].NombreUser;
+            }
+           
+            lblModalTitlePassword.Text = "Cambio de Contraseña";
+            txtUserPasswordCambio.Attributes.Add("placeholder", "Contraseña Nueva");
+            txtUserPasswordCambioConfirma.Attributes.Add("placeholder", "Confirmar Contraseña");
+        }
     }
 
     public void ValidarSession()
@@ -143,5 +167,34 @@ public partial class Site : System.Web.UI.MasterPage
 
         }
         return sb;
+    }
+    protected void Password_Click(object sender, EventArgs e)
+    {
+        if (txtUserPasswordCambio.Text != string.Empty & txtUserPasswordCambioConfirma.Text != string.Empty)
+        {
+            lblUserPasswordCambio.Visible = false;
+            lblUserPasswordCambioConfirma.Visible = false;
+            upModalPassword.Update();
+            if (txtUserPasswordCambio.Text == txtUserPasswordCambioConfirma.Text)
+            {
+                UsuariosBL _catusuariosneg = new UsuariosBL();
+                UsuariosDatos _catusuario = new UsuariosDatos();
+                _catusuario.User = new Usuarios();
+                _catusuario.User.IdUser = Convert.ToInt32(Session["IdUser"]);
+                _catusuario.User.Password = txtUserPasswordCambio.Text;
+                _catusuariosneg.cambiarPassword(_catusuario);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalPassword", "$('#ModalPassword').modal('hide');", true);
+                upModalPassword.Update();
+            }
+            else
+            {
+                lblUserPasswordCambioConfirma.Visible = true;
+            }
+        }
+        else
+        {
+            lblUserPasswordCambio.Visible = true;
+        }
+
     }
 }
