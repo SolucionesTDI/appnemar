@@ -142,6 +142,7 @@ public partial class Minutas_Historial : System.Web.UI.Page
         fil.TipoSesionCadena = CadenaOptions(ddltiposesion_b);
         fil.StatusCadena = CadenaOptions(ddlstatus_b);
         fil.TiempoEntregaCadena = CadenaOptions(ddltipoentrega_b);
+        fil.IdUser = Convert.ToInt32(Session["IdUser"]);
         return fil;
     }
 

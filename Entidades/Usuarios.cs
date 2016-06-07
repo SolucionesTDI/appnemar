@@ -16,6 +16,7 @@ namespace Entidades
         public Perfiles Perfil { get; set; }
         public String FechaRegistro { get; set; }
         public int IdUserGestion { get; set; }
+        public bool Versesiones { get; set; }
     }
 
     public class UsuariosDatos

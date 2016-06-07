@@ -161,5 +161,41 @@ namespace Negocio
             }
         }
 
+        public void IniciarAcuerdo(MinutasAcuerdos obj)
+        {
+            try
+            {
+                dal.IniciarAcuerdo(obj);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void InsComentarios(MinutasComentarios obj)
+        {
+            try
+            {
+                dal.InsComentarios(obj);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void UpdEstatusAcuerdo(MinutasAcuerdos obj)
+        {
+            try
+            {
+                dal.UpdEstatusAcuerdo(obj);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

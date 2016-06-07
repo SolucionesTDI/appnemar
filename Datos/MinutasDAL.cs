@@ -76,6 +76,7 @@ namespace Datos
                     command.Parameters.AddWithValue("@idtipos", string.IsNullOrEmpty(obj.TipoSesionCadena) ? (object)DBNull.Value : obj.TipoSesionCadena);
                     command.Parameters.AddWithValue("@idstatus", string.IsNullOrEmpty(obj.StatusCadena)? (object)DBNull.Value:obj.StatusCadena);
                     command.Parameters.AddWithValue("@tipoentrega", string.IsNullOrEmpty(obj.TiempoEntregaCadena)?(object)DBNull.Value:obj.TiempoEntregaCadena);
+                    command.Parameters.AddWithValue("@iduser",obj.IdUser);
 
                     cn.OpenConnection();
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -135,6 +136,7 @@ namespace Datos
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@idsesion", obj.IdSesion);
+                    command.Parameters.AddWithValue("@iduser", obj.ObjUsuarios.User.IdUser);
                    
                     cn.OpenConnection();
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -436,6 +438,61 @@ namespace Datos
             }
         }
 
+        public void UpdEstatusAcuerdo(MinutasAcuerdos obj)
+        {
+            try
+            {
+                using (SqlCommand command = new SqlCommand("SPD_SESIONES_ACUERDOS_SET_ESTATUS", cn.Connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@idacuerdo", obj.IdAcuerdo);
+                    command.Parameters.AddWithValue("@idstatus", obj.ObjStatus.idstatus);
+                    command.Parameters.AddWithValue("@idusuario", obj.ObjUserSesion.User.IdUser);
+                    cn.OpenConnection();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error BD no se pudo actualizar el status del acuerdo " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error BD no se pudo actualizar el status del acuerdo " + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
+            }
+        }
+
+        public void IniciarAcuerdo(MinutasAcuerdos obj)
+        {
+            try
+            {
+                using (SqlCommand command = new SqlCommand("SPD_SESIONES_ACUERDOS_INICIAR", cn.Connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@idacuerdo", obj.IdAcuerdo);
+                    command.Parameters.AddWithValue("@idusuario", obj.IdUserMinuta);
+                    cn.OpenConnection();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error BD no se pudo iniciar el acuerdo " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error BD no se pudo iniciar el acuerdo " + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
+            }
+        }
+
         public void DelAcuerdo(MinutasAcuerdos obj)
         {
             try
@@ -548,6 +605,38 @@ namespace Datos
                 cn.CloseConnection();
             }
             return list;
+        }
+
+        public void InsComentarios(MinutasComentarios obj)
+        {
+            try
+            {
+                using (SqlCommand command = new SqlCommand("SPD_SESIONES_ACUERDOS_COMENTARIOS_SET", cn.Connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@idacuerdo", obj.ObjMinutaAcuerdo.IdAcuerdo);
+                    command.Parameters.AddWithValue("@idusuario", obj.ObjUsercoment.IdUser);
+                    command.Parameters.AddWithValue("@comentarios", obj.Comentarios);
+                    if(obj.Idcomentario>0)
+                    {
+                        command.Parameters.AddWithValue("@idcomentario", obj.Idcomentario);
+                    }
+                    cn.OpenConnection();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error BD no se pudo agregar el comentario " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error BD no se pudo agregar el comentario " + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
+            }
         }
     }
 }

@@ -22,6 +22,8 @@ public partial class Administracion_Catalogos : System.Web.UI.Page
     CatTemas _cattema;
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!ValidarSesion.sesionactiva())
+            Response.Redirect("~/Default.aspx");
         //Departamentos
         if(!Page.IsPostBack)
         {

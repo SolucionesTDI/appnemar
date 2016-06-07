@@ -16,6 +16,9 @@ public partial class Administracion_Usuarios : System.Web.UI.Page
     PerfilesNegocio _catperfilneg = new PerfilesNegocio();
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!ValidarSesion.sesionactiva())
+            Response.Redirect("~/Default.aspx");
+
         if (!Page.IsPostBack)
         {
             txtUserName.Attributes.Add("placeholder", "Correo Electronico");
@@ -187,6 +190,7 @@ public partial class Administracion_Usuarios : System.Web.UI.Page
             dropUserPuesto.Items.FindByValue(valorpuesto.ToString()).Selected = true;
             HiddenField tempjefe = GridViewUsuarios.Rows[fila].FindControl("idjefe") as HiddenField;
             string valorjefe = tempjefe.Value;
+            HiddenField versesiones = GridViewUsuarios.Rows[fila].FindControl("hdversesiones") as HiddenField;
             dropUserJefe.Items.FindByValue(valorjefe.ToString()).Selected = true;
 
             //lblMensajeUserName.Visible = false;
@@ -199,6 +203,10 @@ public partial class Administracion_Usuarios : System.Web.UI.Page
             txtUserNombre.Text = (GridViewUsuarios.Rows[fila].FindControl("nombre") as HiddenField).Value.ToString();
             txtUserApellidoPaterno.Text = (GridViewUsuarios.Rows[fila].FindControl("ApellidoPat") as HiddenField).Value.ToString();
             txtUserApellidoMaterno.Text = (GridViewUsuarios.Rows[fila].FindControl("ApellidoMat") as HiddenField).Value.ToString();
+            if (versesiones.Value=="1")
+                chkversesiones.Checked = true;
+            else
+                chkversesiones.Checked = false;
             //LoadComboPerfil();
             //LoadComboSede();
             //LoadComboDepartamento();
@@ -233,8 +241,8 @@ public partial class Administracion_Usuarios : System.Web.UI.Page
             {
                 if (txtUserApellidoPaterno.Text != string.Empty)
                 {
-                    if(txtUserApellidoMaterno.Text != string.Empty)
-                    {
+                    //if(txtUserApellidoMaterno.Text != string.Empty)
+                    //{
                         if ((txtUserPassword.Text != string.Empty & txtUserPasswordConfirma.Text != string.Empty) || Operacion.Value == "Editar")
                         {
                             if (txtUserPassword.Text == txtUserPasswordConfirma.Text || Operacion.Value == "Editar")
@@ -258,6 +266,7 @@ public partial class Administracion_Usuarios : System.Web.UI.Page
                                     catusuario.ObjPuestos = new CatPuestos();
                                     catusuario.ObjPuestos.idpuesto = Convert.ToInt32(dropUserPuesto.SelectedValue.ToString());
                                     catusuario.IdJefe = Convert.ToInt32(dropUserJefe.SelectedValue.ToString());
+                                    catusuario.User.Versesiones = (chkversesiones.Checked == true) ? true : false;
                                     _catusuariosneg.insertUsuario(catusuario);
                                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalOperUsuario", "$('#ModalOperUsuario').modal('hide');", true);
                                     upModalOperUsuario.Update();
@@ -282,6 +291,7 @@ public partial class Administracion_Usuarios : System.Web.UI.Page
                                     catusuario.ObjPuestos = new CatPuestos();
                                     catusuario.ObjPuestos.idpuesto = Convert.ToInt32(dropUserPuesto.SelectedValue.ToString());
                                     catusuario.IdJefe = Convert.ToInt32(dropUserJefe.SelectedValue.ToString());
+                                    catusuario.User.Versesiones = (chkversesiones.Checked == true) ? true : false;
                                     _catusuariosneg.modificarUsuario(catusuario);
                                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalOperUsuario", "$('#ModalOperUsuario').modal('hide');", true);
                                     upModalOperUsuario.Update();
@@ -301,11 +311,11 @@ public partial class Administracion_Usuarios : System.Web.UI.Page
                             lblMensajeUserPass.Visible = true;
                         }
 
-                    }
-                   else
-                    {
-                        lblMensajeUserApellidoMaterno.Visible = true;
-                    }
+                    //}
+                   //else
+                   // {
+                   //     lblMensajeUserApellidoMaterno.Visible = true;
+                   // }
                 
                 }
                 else

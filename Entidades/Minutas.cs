@@ -56,6 +56,7 @@ namespace Entidades
         public DataTable ArrayAcuerdos { get; set; }
         public int IdUserMinuta { get; set; }
         public string LabelDias { get; set; }
+        public CatStatus ObjStatus { get; set; }
     }
 
     public class MinutasComentarios
@@ -82,5 +83,6 @@ namespace Entidades
         public string TipoSesionCadena { get; set; }
         public string StatusCadena { get; set; }
         public string TiempoEntregaCadena { get; set; }
+        public int IdUser { get; set; }
     }
 }

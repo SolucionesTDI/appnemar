@@ -222,5 +222,43 @@
 
   <div class="control-sidebar-bg"></div>
 </div>
+    <script lang="javascript" type="text/javascript">
+    <!--
+        var segundos = 0;
+        
+        //El nombre del controlador que mantiene la sesión
+        var CONTROLADOR = "ManejadorSesion.ashx";
+
+        //Ejecuta el script en segundo plano evitando así que caduque la sesión de esta página
+        function MantenSesion() {
+           /* var head = document.getElementsByTagName('head').item(0);
+            script = document.createElement('script');
+            script.src = CONTROLADOR;
+            script.setAttribute('type', 'text/javascript');
+            script.defer = true;
+            head.appendChild(script);*/
+            $.ajax({
+                type: "POST",
+                url: '<%=ResolveUrl("~/ManejadorSesion.ashx") %>',
+                dataType: "html",
+                async: true,
+                success: function (response) {
+                    //alert(response);
+                    console.log(response)
+                  }
+            });
+            
+        }
+
+       
+        //Temporizador para matener la sesión activa
+        setInterval("MantenSesion()", <%= 0.9*(2*60000) %>);
+        
+    //-->
+
+    $("#datosRegistro").css("width","100%")
+    $("#contentMail").css("width","100%")
+    
+    </script>
 </body>
 </html>

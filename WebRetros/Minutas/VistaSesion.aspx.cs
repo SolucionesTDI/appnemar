@@ -28,14 +28,15 @@ public partial class Minutas_VistaSesion : System.Web.UI.Page
         templete = templete.Replace("#FOLIOSESION#", string.Format("{0,22:D8}",idsesion));
 
         MinutasBL bl = new MinutasBL();
-        Minutas min = new Minutas();
+        Minutas min = new Minutas() { ObjUsuarios = new UsuariosDatos() { User=new Usuarios()} };
         min.IdSesion = idsesion;
+        min.ObjUsuarios.User.IdUser = Convert.ToInt32(Session["IdUser"]);
         min=bl.GetMinutasbyFolio(min);
 
         templete = templete.Replace("#STATUSMINUTA#", min.ObjStatus.nomstatus);
         templete = templete.Replace("#FECHAREGISTRO#", min.Fecharegistro.ToShortDateString());
-        templete = templete.Replace("#FECHAPROGRAMADA#", min.Fechafin.Value.ToShortDateString());
-        templete = templete.Replace("#FECHACONC#", min.FechaConclusion.ToString());
+        templete = templete.Replace("#FECHAPROGRAMADA#",min.Fechafin.HasValue ? min.Fechafin.Value.ToShortDateString() : "");
+        templete = templete.Replace("#FECHACONC#", min.FechaConclusion.HasValue ? min.FechaConclusion.Value.ToShortDateString():"");
         templete = templete.Replace("#TIPOSESION#", min.ObjTipoSesion.TipoSesion);
         templete = templete.Replace("#COACHING#", min.ObjUsuarios.NombreCompleto);
         templete = templete.Replace("#DETALLEENTREGA#", min.LabelDias);
@@ -52,7 +53,7 @@ public partial class Minutas_VistaSesion : System.Web.UI.Page
 
         MinutasUsuarios mu = new MinutasUsuarios() { ObjMinutas = new Minutas(), ObjUsuarios = new UsuariosDatos() { User=new Usuarios()} };
         mu.ObjMinutas.IdSesion = idsesion;
-        mu.ObjUsuarios.User.IdUser = 0;
+        mu.ObjUsuarios.User.IdUser = Convert.ToInt32(Session["IdUser"]);
         MinutasBL blmu= new MinutasBL();
         ltvUsuariosSesion.DataSource = blmu.GetUsuariosSesion(mu);
         ltvUsuariosSesion.DataBind();
@@ -93,9 +94,10 @@ public partial class Minutas_VistaSesion : System.Web.UI.Page
     }
     protected void ltvAcuerdos_ItemDataBound(object sender, ListViewItemEventArgs e)
     {
-        if (e.Item.ItemType == ListViewItemType.DataItem && (ltvUsuariosSesion.DataSource != null))
+        ListView ltvAcuerdos = (ListView)sender;
+        if (e.Item.ItemType == ListViewItemType.DataItem && (ltvAcuerdos.DataSource != null))
         {
-            int id = Convert.ToInt32(ltvUsuariosSesion.DataKeys[e.Item.DataItemIndex].Values[1]);
+            int id = Convert.ToInt32(ltvAcuerdos.DataKeys[e.Item.DataItemIndex].Values[0]);
 
             /* StringBuilder sbltvUsuariosMinuta = new StringBuilder();
              System.IO.StringWriter stringWrite = new System.IO.StringWriter(sbltvUsuariosMinuta);

@@ -109,3 +109,25 @@ function validaAcuerdo()
         return true;
     }
 }
+
+$(document).on("click", ".addcomentario", function () {
+    var idacuerdo = $(this).data("idacuerdo");
+    $("#hd_idacuerdo").val(idacuerdo);
+    $("#modalComentarios").modal("show")
+})
+
+function validarcomentarioacuerdo()
+{
+    var msj = "";
+    if ($("#txtcomentario_acuerdo").val() == "" ) {
+        msj += "<div class='alert alert-warning'>Agregue un comentario válido</div>";
+    }
+
+    if (msj != "") {
+        bootbox.alert(msj);
+        return false;
+    }
+    else {
+        return true;
+    }
+}

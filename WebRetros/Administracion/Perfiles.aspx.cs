@@ -14,6 +14,9 @@ public partial class Administracion_Perfiles : System.Web.UI.Page
     Entidades.Perfiles _objperfil;
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!ValidarSesion.sesionactiva())
+            Response.Redirect("~/Default.aspx");
+
         if (!Page.IsPostBack)
         {
             GridViewPerfiles.DataSource = _catperfilneg.list();

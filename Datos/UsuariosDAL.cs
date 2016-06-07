@@ -78,6 +78,7 @@ namespace Datos
                     command.Parameters.AddWithValue("@idpuesto", _catusuariosdatos.ObjPuestos.idpuesto);
                     command.Parameters.AddWithValue("@idsede", _catusuariosdatos.ObjSedes.idsede);
                     command.Parameters.AddWithValue("@idjefe", _catusuariosdatos.IdJefe == 0 ? (object)DBNull.Value : _catusuariosdatos.IdJefe);
+                    command.Parameters.AddWithValue("@versesiones",_catusuariosdatos.User.Versesiones);
                     cn.OpenConnection();
                     command.ExecuteNonQuery();
                    // id = (int)command.ExecuteScalar();
@@ -117,7 +118,7 @@ namespace Datos
                     command.Parameters.AddWithValue("@idpuesto", _catusuariosdatos.ObjPuestos.idpuesto);
                     command.Parameters.AddWithValue("@idsede", _catusuariosdatos.ObjSedes.idsede);
                     command.Parameters.AddWithValue("@idjefe", _catusuariosdatos.IdJefe == 0 ? (object)DBNull.Value : _catusuariosdatos.IdJefe);
-
+                    command.Parameters.AddWithValue("@versesiones", _catusuariosdatos.User.Versesiones);
                     cn.OpenConnection();
                     command.ExecuteNonQuery();
                 }
@@ -232,6 +233,7 @@ namespace Datos
                         _catusuariosdatos.ObjPuestos = new CatPuestos();
                         _catusuariosdatos.ObjPuestos.idpuesto = (int)reader["idpuesto"];
                         _catusuariosdatos.ObjPuestos.descripcion = (string)reader["nompuesto"];
+                        _catusuariosdatos.User.Versesiones = Convert.ToBoolean(reader["versesiones"]);
                         if(string.IsNullOrEmpty(reader["idjefe"].ToString()))
                         {
                             _catusuariosdatos.IdJefe = 0;

@@ -63,7 +63,7 @@
                                                     <asp:HiddenField ID="nombre" runat="server" Value='<%# Bind("NombreUser") %>' />
                                                     <asp:HiddenField ID="ApellidoPat" runat="server" Value='<%# Bind("ApellidoPat") %>' />
                                                     <asp:HiddenField ID="ApellidoMat" runat="server" Value='<%# Bind("ApellidoMat") %>' />
-
+                                                    <asp:HiddenField ID="hdversesiones" runat="server" Value='<%# Convert.ToBoolean(Eval("User.Versesiones")) ? "1" :"0" %>' />
                                                     <asp:Label ID="nombrecompleto" runat="server"><%# Eval("NombreCompleto") %> </asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
@@ -295,6 +295,11 @@
                                                 <label class="col-sm-2 control-label">Jefe: </label>
                                                 <div class="col-sm-10">
                                                     <asp:DropDownList runat="server" ID="dropUserJefe" CssClass="form-control"></asp:DropDownList></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Ver todas las sesiones: </label>
+                                                <div class="col-sm-10">
+                                                    <asp:CheckBox ID="chkversesiones" CssClass="" runat="server" /> </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <asp:Button CssClass="btn btn-primary" ID="GuardarUsuario" runat="server" Text="Guardar" OnClick="Nuevo_Click" />
