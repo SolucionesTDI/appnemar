@@ -55,7 +55,7 @@ namespace Entidades
 
         public DataTable ArrayAcuerdos { get; set; }
         public int IdUserMinuta { get; set; }
-
+        public string LabelDias { get; set; }
     }
 
     public class MinutasComentarios
@@ -65,8 +65,11 @@ namespace Entidades
         public string Comentarios { get; set; }
         public DateTime FechaRegistro { get; set; }
         public Usuarios ObjUsercoment { get; set; }
+        public UsuariosDatos ObjUserDatos { get; set; }
         public MinutasAcuerdos ObjMinutaAcuerdo { get; set; }
-        public CatSedes ObjStatuscoment { get; set; }
+        public Minutas ObjMinutas { get; set; }
+        public CatStatus ObjStatuscoment { get; set; }
+        public bool Activo { get; set; }
 
     }
 

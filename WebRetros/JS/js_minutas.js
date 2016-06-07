@@ -1,6 +1,6 @@
 ﻿function pageLoad()
 {
-        
+    $(".ddlmulti").multiselect();
     $(".textarea").wysihtml5({
         toolbar: {
             "font-styles": true, //Font styling, e.g. h1, h2, etc. Default true

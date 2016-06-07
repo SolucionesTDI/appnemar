@@ -70,8 +70,8 @@ namespace Datos
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@idtema", string.IsNullOrEmpty(obj.TemasCadena) ? (object)DBNull.Value: obj.TemasCadena);
-                    command.Parameters.AddWithValue("@fechaini", obj.FechaIni.HasValue ? obj.FechaIni.Value.Date.ToString("dd/MM/yyyy") : (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@fechafin", obj.FechaFin.HasValue ? obj.FechaFin.Value.Date.ToString("dd/MM/yyyy") : (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@fechaini", obj.FechaIni.HasValue ? obj.FechaIni.Value.Date : (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@fechafin", obj.FechaFin.HasValue ? obj.FechaFin.Value.Date : (object)DBNull.Value);
                     command.Parameters.AddWithValue("@idusuarios", string.IsNullOrEmpty(obj.UsuariosCadena)? (object)DBNull.Value:obj.UsuariosCadena);
                     command.Parameters.AddWithValue("@idtipos", string.IsNullOrEmpty(obj.TipoSesionCadena) ? (object)DBNull.Value : obj.TipoSesionCadena);
                     command.Parameters.AddWithValue("@idstatus", string.IsNullOrEmpty(obj.StatusCadena)? (object)DBNull.Value:obj.StatusCadena);
@@ -123,6 +123,64 @@ namespace Datos
                 cn.CloseConnection();
             }
             return list;
+        }
+
+        public Minutas GetMinutasbyFolio(Minutas obj)
+        {
+            Minutas ent = new Minutas() { ObjTemas = new CatTemas(), ObjUsuarios = new UsuariosDatos() { User = new Usuarios() }, ObjTipoSesion = new CatTipoSesion(), ObjStatus = new CatStatus() };
+
+            try
+            {
+                using (SqlCommand command = new SqlCommand("SPD_SESIONES_GET", cn.Connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@idsesion", obj.IdSesion);
+                   
+                    cn.OpenConnection();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            ent.IdSesion = (int)reader["idsesion"];
+                            ent.Objetivo = (string)reader["objetivo"];
+                            ent.Descripcion = (string)reader["descripcion"];
+                            ent.Fechafin = reader["fechafin"] == DBNull.Value ? null : (DateTime?)(DateTime)reader["fechafin"];
+                            ent.FechaConclusion = reader["fechaconclusion"] == DBNull.Value ? null : (DateTime?)(DateTime)reader["fechaconclusion"];
+                            ent.Conclusion = (string)reader["conclusiones"];
+                            ent.Fecharegistro = (DateTime)reader["fecharegistro"];
+                            ent.ObjTemas.idtema = (int)reader["idtema"];
+                            ent.ObjTemas.descripcion = (string)reader["nomtema"];
+                            ent.ObjUsuarios.User.IdUser = (int)reader["idusuario"];
+                            ent.ObjUsuarios.User.Username = (string)reader["username"];
+                            ent.ObjUsuarios.NombreUser = (string)reader["nombreusuario"];
+                            ent.ObjTipoSesion.IdTipo = (int)reader["idtipo"];
+                            ent.ObjTipoSesion.TipoSesion = (string)reader["tiposesion"];
+                            ent.ObjTipoSesion.Clave = (string)reader["clave"];
+                            ent.ObjStatus.idstatus = (int)reader["idstatus"];
+                            ent.ObjStatus.nomstatus = (string)reader["nomstatus"];
+                            ent.LabelDias = (string)reader["labeldias"];
+                            ent.TiempoEntrega = (string)reader["tiempoentrega"];
+
+                            
+                        }
+                    }
+
+
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error BD No se pudo obtener la Minuta" + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error code No se pudo obtener la Minuta " + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
+            }
+            return ent;
         }
         public void InsUsuariosbyMinuta(MinutasUsuarios obj)
         {
@@ -188,7 +246,7 @@ namespace Datos
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@idsesion", obj.ObjMinutas.IdSesion);
-
+                    command.Parameters.AddWithValue("@idusuario", obj.ObjUsuarios.User.IdUser > 0 ? obj.ObjUsuarios.User.IdUser : (object)DBNull.Value);
 
                     cn.OpenConnection();
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -266,6 +324,7 @@ namespace Datos
                             ent.Diasentrega = (int)reader["diasentrega"];
                             ent.TiempoEntrega = (string)reader["tiempoentrega"];
                             ent.ObjUserSesion.IdUserSesion = (int)reader["idusuariosesion"];
+                            ent.LabelDias = (string)reader["labeldias"];
                             list.Add(ent);
                         }
                     }
@@ -402,6 +461,93 @@ namespace Datos
             {
                 cn.CloseConnection();
             }
+        }
+
+        public void CancelarSesion(Minutas obj)
+        {
+            try
+            {
+                using (SqlCommand command = new SqlCommand("SPD_SESIONES_STATUS_CANCELAR", cn.Connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@idsesion", obj.IdSesion);
+                    command.Parameters.AddWithValue("@idusuario", obj.ObjUsuarios.User.IdUser);
+                    cn.OpenConnection();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error BD no se pudo cancelar la minuta " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error BD no se pudo cancelar la minuta " + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
+            }
+        }
+
+        public List<MinutasComentarios> GetComentariosAcuerdos(MinutasComentarios obj)
+        {
+            List<MinutasComentarios> list = new List<MinutasComentarios>();
+            MinutasComentarios ent;
+            try
+            {
+                using (SqlCommand command = new SqlCommand("SPD_SESIONES_ACUERDOS_COMENTARIOS_GET", cn.Connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@idacuerdo", obj.ObjMinutaAcuerdo.IdAcuerdo == 0 ? (object)DBNull.Value : obj.ObjMinutaAcuerdo.IdAcuerdo);
+                    command.Parameters.AddWithValue("@idusuario", obj.ObjUsercoment.IdUser == 0 ? (object)DBNull.Value : obj.ObjUsercoment.IdUser);
+                    command.Parameters.AddWithValue("@idcomentario", obj.Idcomentario == 0 ? (object)DBNull.Value : obj.Idcomentario);
+                    if(obj.Activo)
+                    {
+                        command.Parameters.AddWithValue("@activo", obj.Activo );
+                    }
+                    cn.OpenConnection();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ent = new MinutasComentarios()
+                            {
+                                ObjMinutas = new Minutas() { ObjStatus = new CatStatus() }
+                                ,
+                                ObjUsercoment = new Usuarios(), ObjUserDatos=new UsuariosDatos(), ObjStatuscoment=new CatStatus()
+                                
+                            };
+                            ent.Idcomentario = (int)reader["idcomentario"];
+                            ent.Comentarios = (string)reader["comentarios"];
+                            ent.FechaRegistro = (DateTime)reader["fecharegistro"];
+                            ent.Activo= (bool)reader["activo"];
+                            ent.ObjUsercoment.IdUser = (int)reader["idusuario"];
+                            ent.ObjUserDatos.NombreCompleto = (string)reader["nombrecompleto"];
+                            ent.ObjUsercoment.Username = (string)reader["username"];
+                            ent.ObjStatuscoment.idstatus = (int)reader["idstatus"];
+                            ent.ObjStatuscoment.nomstatus = (string)reader["nomstatus"];
+                            
+                            list.Add(ent);
+                        }
+                    }
+
+
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error BD No se pudo obtener la lista de comentarios del acuerdo " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error code No se pudo obtener la lista de comentarios del acuerdo " + ex.Message);
+            }
+            finally
+            {
+                cn.CloseConnection();
+            }
+            return list;
         }
     }
 }

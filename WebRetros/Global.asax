@@ -45,8 +45,11 @@
 
         routes.MapPageRoute("MinutaslistApp", "minutas/list", "~/Minutas/Historial.aspx");
         routes.MapPageRoute("MinutasNuevoApp", "minutas/nuevo", "~/Minutas/nuevaminuta.aspx");
+        routes.MapPageRoute("MinutasSeguimientoApp", "minutas/seguimiento/{*idsesion}", "~/Minutas/Seguimiento.aspx");
 
         routes.MapPageRoute("PerfilesApp", "admin/perfiles", "~/Administracion/Perfiles.aspx");
+
+        routes.MapPageRoute("VistaSesionApp", "minutas/detalles/{idsesion}", "~/Minutas/VistaSesion.aspx");
     }
        
 </script>

@@ -16,7 +16,12 @@ public partial class Site : System.Web.UI.MasterPage
     string path;
     protected void Page_Load(object sender, EventArgs e)
     {
-        ValidarSession();
+        if (!ValidarSesion.sesionactiva())
+            Response.Redirect("~/Default.aspx");
+        
+        UserMaster = new Usuarios() { Perfil = new Perfiles() };
+        UserMaster = Session["Usuario"] as Usuarios;
+        
         MenusBL bl = new MenusBL();
             if(!IsPostBack)
             {

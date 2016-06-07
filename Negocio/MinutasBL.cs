@@ -125,6 +125,41 @@ namespace Negocio
             }
         }
 
+        public void CancelarSesion(Minutas obj)
+        {
+            try
+            {
+                dal.CancelarSesion(obj);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public Minutas GetMinutasbyFolio(Minutas obj)
+        {
+            try
+            {
+              return  dal.GetMinutasbyFolio(obj);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<MinutasComentarios> GetComentariosAcuerdos(MinutasComentarios obj)
+        {
+            try
+            {
+                return dal.GetComentariosAcuerdos(obj);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
     }
 }
