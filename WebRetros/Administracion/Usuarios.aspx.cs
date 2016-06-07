@@ -114,11 +114,29 @@ public partial class Administracion_Usuarios : System.Web.UI.Page
         {
             dropUserPerfil.DataSource = _catperfilneg.list();
             dropUserPerfil.DataValueField = "idperfil";
-            dropUserPerfil.DataTextField = "nomperfil";
+            dropUserPerfil.DataTextField = "nomperfil";    
             dropUserPerfil.DataBind();
         }
        
     }
+    public void LoadComboJefe(string oper = null, int ID = 0)
+    {
+
+        if (oper == "filtro")
+        {
+           
+        }
+        else
+        {
+            dropUserJefe.DataSource = _catusuariosneg.list();
+            dropUserJefe.DataValueField = "idUser";
+            dropUserJefe.DataTextField = "NombreCompleto";
+            dropUserJefe.DataBind();
+            dropUserJefe.Items.Insert(0, new ListItem("No Aplica", "0"));
+        }
+
+    }
+
     protected void GridView_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         if (e.CommandName == "EliminarUsuario")
@@ -147,6 +165,7 @@ public partial class Administracion_Usuarios : System.Web.UI.Page
             LoadComboSede();
             LoadComboDepartamento();
             LoadComboPuesto();
+            LoadComboJefe();
             int fila = Convert.ToInt32(e.CommandArgument);
             ID.Value = this.GridViewUsuarios.DataKeys[fila].Value.ToString();
             txtUserPassword.Visible = false;
@@ -166,6 +185,10 @@ public partial class Administracion_Usuarios : System.Web.UI.Page
             HiddenField temppuesto = GridViewUsuarios.Rows[fila].FindControl("idpuesto") as HiddenField;
             string valorpuesto = temppuesto.Value;
             dropUserPuesto.Items.FindByValue(valorpuesto.ToString()).Selected = true;
+            HiddenField tempjefe = GridViewUsuarios.Rows[fila].FindControl("idjefe") as HiddenField;
+            string valorjefe = tempjefe.Value;
+            dropUserJefe.Items.FindByValue(valorjefe.ToString()).Selected = true;
+
             //lblMensajeUserName.Visible = false;
             //lblMensajeUserNameCorreo.Visible = false;
             //lblMensajeUserPass.Visible = false;
@@ -234,6 +257,7 @@ public partial class Administracion_Usuarios : System.Web.UI.Page
                                     catusuario.ObjDepto.iddepto = Convert.ToInt32(dropUserDepartamento.SelectedValue.ToString());
                                     catusuario.ObjPuestos = new CatPuestos();
                                     catusuario.ObjPuestos.idpuesto = Convert.ToInt32(dropUserPuesto.SelectedValue.ToString());
+                                    catusuario.IdJefe = Convert.ToInt32(dropUserJefe.SelectedValue.ToString());
                                     _catusuariosneg.insertUsuario(catusuario);
                                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalOperUsuario", "$('#ModalOperUsuario').modal('hide');", true);
                                     upModalOperUsuario.Update();
@@ -257,6 +281,7 @@ public partial class Administracion_Usuarios : System.Web.UI.Page
                                     catusuario.ObjDepto.iddepto = Convert.ToInt32(dropUserDepartamento.SelectedValue.ToString());
                                     catusuario.ObjPuestos = new CatPuestos();
                                     catusuario.ObjPuestos.idpuesto = Convert.ToInt32(dropUserPuesto.SelectedValue.ToString());
+                                    catusuario.IdJefe = Convert.ToInt32(dropUserJefe.SelectedValue.ToString());
                                     _catusuariosneg.modificarUsuario(catusuario);
                                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalOperUsuario", "$('#ModalOperUsuario').modal('hide');", true);
                                     upModalOperUsuario.Update();
@@ -321,6 +346,7 @@ public partial class Administracion_Usuarios : System.Web.UI.Page
         LoadComboSede();
         LoadComboDepartamento();
         LoadComboPuesto();
+        LoadComboJefe();
         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ModalOperUsuario", "$('#ModalOperUsuario').modal();", true);
         upModalOperUsuario.Update();
     }

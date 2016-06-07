@@ -52,11 +52,11 @@
 <div class="wrapper">
     <header class="main-header">
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="Inicio.aspx" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>A</b>LT</span>
+      <span class="logo-mini"><b>A</b>RT</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b>LTE</span>
+      <span class="logo-lg"><b>Admin</b>Retro</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -71,27 +71,30 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="~/assets/dist/img/user2-160x160.jpg" class="user-image" alt="User Image" runat="server" />
-              <span class="hidden-xs">Alexander Pierce</span>
+              <img src="~/assets/dist/img/userdefault2.jpg" class="user-image" alt="User Image" runat="server" />
+              <span class="hidden-xs"><asp:Label ID="nombreusuariousermenu" runat="server"></asp:Label></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="~/assets/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" runat="server" />
+                <img src="~/assets/dist/img/userdefault2.jpg" class="img-circle" alt="User Image" runat="server" />
 
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                <asp:Label ID="nombredeusuariodropmenu" runat="server"></asp:Label>
+                  <small><asp:Label ID="perfilusuariodropmenu" runat="server"></asp:Label></small>
                 </p>
               </li>
               
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+               
+               <button data-toggle="modal" data-target="#ModalPassword" class="btn btn-default btn-flat">Cambiar Contraseña</button>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+           
+              
+                  <a href="<%=Page.ResolveUrl("~/logout") %>" class="btn btn-default btn-flat">Cerrar Sesión</a>
                 </div>
               </li>
             </ul>
@@ -107,10 +110,10 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="~/assets/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" runat="server" />
+          <img src="~/assets/dist/img/userdefault2.jpg" class="img-circle" alt="User Image" runat="server" />
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p><asp:Label ID="nombreusuarioleftmenu" runat="server"></asp:Label></p>
             
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
@@ -169,6 +172,45 @@
             <asp:ContentPlaceHolder id="contentBody" runat="server">  
             </asp:ContentPlaceHolder>
         </div>
+
+         <!-- Bootstrap Modal Dialog Password -->
+                <div class="modal fade" id="ModalPassword" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <asp:UpdatePanel ID="upModalPassword" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+                            <ContentTemplate>
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title">
+                                            <asp:Label ID="lblModalTitlePassword" runat="server" Text=""></asp:Label></h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <asp:TextBox ID="txtUserPasswordCambio" TextMode="Password" CssClass="form-control" runat="server"></asp:TextBox>
+
+                                            <div class="has-error">
+                                                <asp:Label CssClass="control-label" TextMode="Password" ID="lblUserPasswordCambio" runat="server" Visible="false" Text="">
+                    <i class="fa fa-times-circle-o"></i> Campo Obligatorio
+                                                </asp:Label>
+                                            </div>
+                                            <br />
+                                            <asp:TextBox ID="txtUserPasswordCambioConfirma" TextMode="Password" CssClass="form-control" runat="server"></asp:TextBox>
+                                            <div class="has-error">
+                                                <asp:Label CssClass="control-label" ID="lblUserPasswordCambioConfirma" runat="server" Visible="false" Text="">
+                    <i class="fa fa-times-circle-o"></i> Las Contraseñas no coinciden</asp:Label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <asp:Button CssClass="btn btn-primary" ID="GuardarPassword" runat="server" Text="Aceptar" OnClick="Password_Click" />
+                                        <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+                                    </div>
+                                </div>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </div>
+                </div>
+
     </form>
 
     <footer class="main-footer">

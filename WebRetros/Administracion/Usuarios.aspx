@@ -88,6 +88,7 @@
                                             <asp:TemplateField HeaderText="Puesto">
                                                 <ItemTemplate>
                                                     <asp:HiddenField ID="idpuesto" runat="server" Value='<%# Bind("ObjPuestos.idpuesto") %>' />
+                                                    <asp:HiddenField ID="idjefe" runat="server" Value='<%# Bind("IdJefe") %>' />
                                                     <asp:Label runat="server"><%# Eval("ObjPuestos.descripcion") %> </asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
@@ -289,6 +290,11 @@
                                                 <label class="col-sm-2 control-label">Puesto: </label>
                                                 <div class="col-sm-10">
                                                     <asp:DropDownList runat="server" ID="dropUserPuesto" CssClass="form-control"></asp:DropDownList></div>
+                                            </div>
+                                             <div class="form-group">
+                                                <label class="col-sm-2 control-label">Jefe: </label>
+                                                <div class="col-sm-10">
+                                                    <asp:DropDownList runat="server" ID="dropUserJefe" CssClass="form-control"></asp:DropDownList></div>
                                             </div>
                                             <div class="modal-footer">
                                                 <asp:Button CssClass="btn btn-primary" ID="GuardarUsuario" runat="server" Text="Guardar" OnClick="Nuevo_Click" />

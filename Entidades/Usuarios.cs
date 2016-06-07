@@ -33,6 +33,7 @@ namespace Entidades
         public CatPuestos ObjPuestos { get; set; }
         public CatSedes ObjSedes { get; set; }
         public string NombreCompleto { get; set; }
+        public int IdJefe { get; set; }
 
     }
 }
