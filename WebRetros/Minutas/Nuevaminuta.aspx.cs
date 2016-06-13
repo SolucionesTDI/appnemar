@@ -7,9 +7,14 @@ using System.Web.UI.WebControls;
 using Negocio;
 using Entidades;
 using System.Data;
+using System.Text;
+using System.IO;
+
+
 
 public partial class Minutas_Nuevaminuta : System.Web.UI.Page
 {
+    private int idsesion = 0;
     protected void Page_Load(object sender, EventArgs e)
     {
         if(!IsPostBack)
@@ -55,8 +60,9 @@ public partial class Minutas_Nuevaminuta : System.Web.UI.Page
             ent.ObjUsuarios.User.IdUser = Convert.ToInt32(Session["IdUser"].ToString());
             ent.ObjTipoSesion.IdTipo = Convert.ToInt32(ddltiposesion.SelectedValue);
             ent.IdSesion = (string.IsNullOrEmpty(hd_idsesion.Value) ? 0 : Convert.ToInt32(hd_idsesion.Value));
-            int idsesion = bl.InsMinuta(ent);
+            idsesion = bl.InsMinuta(ent);
             hd_idsesion.Value = idsesion.ToString();
+            
             if (ent.IdSesion > 0)
             {
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "bootbox.alert('<div class=\" alert alert-success\">Datos Actualizados con éxito</div>')", true);
@@ -111,8 +117,10 @@ public partial class Minutas_Nuevaminuta : System.Web.UI.Page
         try
         {
             MinutasBL bl = new MinutasBL();
-            MinutasUsuarios usm = new MinutasUsuarios() { ObjMinutas = new Minutas() };
+            
+            MinutasUsuarios usm = new MinutasUsuarios() { ObjMinutas = new Minutas(), ObjUsuarios = new UsuariosDatos() { User = new Usuarios() } };
             usm.ObjMinutas.IdSesion = Convert.ToInt32(hd_idsesion.Value);
+            usm.ObjUsuarios.User.IdUser = Convert.ToInt32(Session["IdUser"]);
             gdvParticipantes.DataSource = bl.GetUsuariosSesion(usm);
             gdvParticipantes.DataBind();
         }
@@ -202,14 +210,14 @@ public partial class Minutas_Nuevaminuta : System.Web.UI.Page
 
     }
 
-    public void limpiarFormAcuerdos()
+    protected void limpiarFormAcuerdos()
     {
         txtdescripcionacuerdo.Text = "";
         txtfechai_b.Text = "";
         txtfechaf_b.Text = "";
     }
 
-    public void LoadAcuerdos(GridView gdv, int iduser = 0)
+    protected void LoadAcuerdos(GridView gdv, int iduser = 0)
     {
         
         MinutasBL bl = new MinutasBL();
@@ -268,4 +276,75 @@ public partial class Minutas_Nuevaminuta : System.Web.UI.Page
         txtfechai_b.Text = min.FechaIni.ToString();
 
     }
+
+    protected void MailTemplate()
+    {
+
+    }
+
+    #region render para mail
+
+    protected void ltvUsuariosSesion_ItemDataBound(object sender, ListViewItemEventArgs e)
+    {
+        if (e.Item.ItemType == ListViewItemType.DataItem && (ltvUsuariosSesion.DataSource != null))
+        {
+            int id = Convert.ToInt32(ltvUsuariosSesion.DataKeys[e.Item.DataItemIndex].Values[1]);
+
+            ListView ltvAcuerdos = e.Item.FindControl("ltvAcuerdos") as ListView;
+            LoadAcuerdos(ltvAcuerdos, id);
+
+        }
+    }
+
+    protected void LoadAcuerdos(ListView gdv, int iduser = 0)
+    {
+
+        MinutasBL bl = new MinutasBL();
+        MinutasAcuerdos min = new MinutasAcuerdos() { ObjMinutas = new Minutas(), ObjTipoacuerdo = new CatTipoAcuerdo(), ObjUserSesion = new UsuariosDatos() };
+        min.ObjMinutas.IdSesion = idsesion;
+        min.ObjUserSesion.IdUserSesion = Convert.ToInt32(Session["IdUser"]);
+        min.IdAcuerdo = 0;
+        min.ObjUserSesion.IdUserMostrar = iduser;
+        gdv.DataSource = bl.GetAcuerdos(min);
+        gdv.DataBind();
+
+    }
+    protected void ltvAcuerdos_ItemDataBound(object sender, ListViewItemEventArgs e)
+    {
+        ListView ltvAcuerdos = (ListView)sender;
+        if (e.Item.ItemType == ListViewItemType.DataItem && (ltvAcuerdos.DataSource != null))
+        {
+            int id = Convert.ToInt32(ltvAcuerdos.DataKeys[e.Item.DataItemIndex].Values[0]);
+
+            /* StringBuilder sbltvUsuariosMinuta = new StringBuilder();
+             System.IO.StringWriter stringWrite = new System.IO.StringWriter(sbltvUsuariosMinuta);
+             System.Web.UI.Html32TextWriter htmlWrite = new Html32TextWriter(stringWrite);
+             */
+            ListView ltvComentariosAcuerdos = e.Item.FindControl("ltvComentariosAcuerdos") as ListView;
+            LoadComentarios(ltvComentariosAcuerdos, id);
+
+        }
+    }
+
+    protected void LoadComentarios(ListView gdv, int idacuerdo = 0)
+    {
+
+        MinutasBL bl = new MinutasBL();
+        MinutasComentarios mc = new MinutasComentarios()
+        {
+            ObjMinutas = new Minutas() { ObjStatus = new CatStatus() }
+            ,
+            ObjMinutaAcuerdo = new MinutasAcuerdos(),
+            ObjUsercoment = new Usuarios(),
+            ObjUserDatos = new UsuariosDatos(),
+            ObjStatuscoment = new CatStatus()
+        };
+        mc.ObjMinutaAcuerdo.IdAcuerdo = idacuerdo;
+        mc.ObjUsercoment.IdUser = 0;
+        mc.Idcomentario = 0;
+        gdv.DataSource = bl.GetComentariosAcuerdos(mc);
+        gdv.DataBind();
+
+    }
+    #endregion 
 }

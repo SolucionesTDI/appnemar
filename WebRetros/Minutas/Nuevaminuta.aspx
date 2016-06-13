@@ -80,7 +80,7 @@
                             </div>
                         </div>
                         <div class="col-sm-12">
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                                 <div class="form-group">
                                     <label>Fecha cierre planeada</label>
                                     <div class="input-group">
@@ -315,6 +315,105 @@
             </div>--%>
         </section>
     </div>
+
+<asp:ListView runat="server" ID="ltvUsuariosSesion" EnableModelValidation="True" DataKeyNames="IdSesionUser,IdUserMinuta"
+  OnItemDataBound="ltvUsuariosSesion_ItemDataBound" >
+    <LayoutTemplate >
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">Usuarios Participantes</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="box-group">
+                            <div runat="server" id="itemPlaceholder"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </LayoutTemplate>
+    <ItemTemplate>
+        <div class="box box-primary">
+            <div class="box-header">
+                <h4 class="box-title text-light-blue">
+                    <%#DataBinder.Eval(Container.DataItem, "ObjUsuarios.NombreCompleto")%>
+                </h4>
+            </div>
+            <div class="box-body">
+               <asp:ListView runat="server" ID="ltvAcuerdos" EnableModelValidation="True" DataKeyNames="IdAcuerdo,IdUserMinuta"
+                  OnItemDataBound="ltvAcuerdos_ItemDataBound"   >
+                   <LayoutTemplate >
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                     <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                              <th>Fecha inicial</th>
+                                              <th>Fecha final</th>
+                                              <th>Descripción</th>
+                                              <th>Estatus</th>
+                                              <th>Tiempo entrega</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr runat="server" id="itemPlaceholder" ></tr>
+                                        </tbody>
+                                     </table>
+                                </div>
+                            </div>
+                        </div> 
+                    </LayoutTemplate>
+                   <ItemTemplate>
+                       <tr>
+                           <td><%#DataBinder.Eval(Container.DataItem, "FechaIni","{0:d}")%></td>
+                           <td><%#DataBinder.Eval(Container.DataItem, "FechaFin","{0:d}")%></td>
+                           <td><%#DataBinder.Eval(Container.DataItem, "Descripcion")%></td>
+                           <td><%#DataBinder.Eval(Container.DataItem, "ObjMinutas.ObjStatus.nomstatus")%></td>
+                           <td><%#DataBinder.Eval(Container.DataItem, "LabelDias")%></td>
+                       </tr>
+                       <tr>
+                           <td colspan="5">
+                               <asp:ListView runat="server" ID="ltvComentariosAcuerdos" EnableModelValidation="True" DataKeyNames="Idcomentario" >
+                                   <LayoutTemplate >
+                                   <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="table-responsive">
+                                                 <table class="datagrid table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                          <th>Comentarios</th>
+                                                          <th>Usuario</th>
+                                                          <th>Fecha Registro</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr runat="server" id="itemPlaceholder" ></tr>
+                                                    </tbody>
+                                                 </table>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    </LayoutTemplate>
+                                    <ItemTemplate>
+                                        <tr>
+                                           <td><%#DataBinder.Eval(Container.DataItem, "Comentarios")%></td>
+                                           <td><%#DataBinder.Eval(Container.DataItem, "ObjUserDatos.NombreCompleto")%></td>
+                                           <td><%#DataBinder.Eval(Container.DataItem, "FechaRegistro","{0:d}")%></td>
+                                       </tr>
+                                    </ItemTemplate>
+                                </asp:ListView>
+                           </td>
+                       </tr>
+                   </ItemTemplate>
+                </asp:ListView>
+            </div>
+        </div>
+    </ItemTemplate>
+</asp:ListView>
+
     <script src="<%=ResolveClientUrl("~/JS/js_minutas.js") %>" type="text/javascript"></script>
     
 </asp:Content>
