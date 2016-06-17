@@ -17,6 +17,8 @@ namespace Entidades
         public int orden { get; set; }
         public DateTime fecharegistro { get; set; }
         public Boolean activo { get; set; }
+        public string color { get; set; }
+        public string icono { get; set; }
 
         /// <summary>
         /// Constructor

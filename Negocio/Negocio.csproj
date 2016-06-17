@@ -47,6 +47,7 @@
     <Compile Include="CatTemasNegocio.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="EmailBL.cs" />
+    <Compile Include="IndicadoresNegocio.cs" />
     <Compile Include="MenuPerfilNegocio.cs" />
     <Compile Include="MenusBL.cs" />
     <Compile Include="PerfilesNegocio.cs" />

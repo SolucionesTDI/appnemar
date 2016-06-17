@@ -14,6 +14,7 @@ public partial class Inicio : System.Web.UI.Page
 
         MenusBL bl = new MenusBL();
         UsuariosBL userbl = new UsuariosBL();
+        IndicadoresNegocio _indicadoresneg = new IndicadoresNegocio();
         if (!IsPostBack)
         {
 
@@ -32,9 +33,16 @@ public partial class Inicio : System.Web.UI.Page
                 lblSede.Text = _lstusuariodatos[0].ObjSedes.descripcion;
                 lblDepartamento.Text = _lstusuariodatos[0].ObjDepto.descripcion;
                 lblPuesto.Text = _lstusuariodatos[0].ObjPuestos.descripcion;
+
             }
 
-        
+            RepeaterIndicadores.DataSource = _indicadoresneg.obtenerIndicadorAcuerdosStatusUsuario((int)Session["IdUser"]);
+            RepeaterIndicadores.DataBind();
+            RepeaterSesionesCreadas.DataSource = _indicadoresneg.obtenerIndicadorSesionesStatusUsuario((int)Session["IdUser"],"Creada");
+            RepeaterSesionesCreadas.DataBind();
+            RepeaterSesionesAsignadas.DataSource = _indicadoresneg.obtenerIndicadorSesionesStatusUsuario((int)Session["IdUser"], "Asignada");
+            RepeaterSesionesAsignadas.DataBind();
+
         }
 
 

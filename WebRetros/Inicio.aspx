@@ -33,6 +33,145 @@
             </div>
               </div>
             </div>
+         <div class="col-md-12">
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <i class="fa fa-flag"></i>
+
+              <h3 class="box-title">Indicadores por Sesiones Creadas</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <dl>
+                  <asp:repeater ID="RepeaterSesionesCreadas" runat="server" 
+    >
+  <HeaderTemplate>
+    
+  </HeaderTemplate>
+
+  <ItemTemplate>
+   
+      <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box <%# DataBinder.Eval(Container.DataItem, "color") %>">
+            <div class="inner">
+              <h3><%# DataBinder.Eval(Container.DataItem, "Indicador") %></h3>
+
+              <p><%# DataBinder.Eval(Container.DataItem, "nombrestatus") %></p>
+            </div>
+            <div class="icon">
+              <i class="<%# DataBinder.Eval(Container.DataItem, "icono") %>"></i>
+            </div>
+            <a class="small-box-footer" href="#">Mas Información <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+
+     
+   
+  </ItemTemplate>
+
+  <FooterTemplate>
+  
+  </FooterTemplate>
+</asp:repeater>
+              </dl>
+          </div>
+              </div>
+            </div>
+        <div class="col-md-12">
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <i class="fa fa-flag"></i>
+
+              <h3 class="box-title">Indicadores por Sesiones Asignadas</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <dl>
+                  <asp:repeater ID="RepeaterSesionesAsignadas" runat="server" 
+    >
+  <HeaderTemplate>
+    
+  </HeaderTemplate>
+
+  <ItemTemplate>
+   
+      <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box <%# DataBinder.Eval(Container.DataItem, "color") %>">
+            <div class="inner">
+              <h3><%# DataBinder.Eval(Container.DataItem, "Indicador") %></h3>
+
+              <p><%# DataBinder.Eval(Container.DataItem, "nombrestatus") %></p>
+            </div>
+            <div class="icon">
+              <i class="<%# DataBinder.Eval(Container.DataItem, "icono") %>"></i>
+            </div>
+            <a class="small-box-footer" href="#">Mas Información <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+
+     
+   
+  </ItemTemplate>
+
+  <FooterTemplate>
+  
+  </FooterTemplate>
+</asp:repeater>
+              </dl>
+          </div>
+              </div>
+            </div>
+       
+
+        <div class="col-md-12">
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <i class="fa fa-flag"></i>
+
+              <h3 class="box-title">Indicadores por Acuerdos</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <dl>
+                  <asp:repeater ID="RepeaterIndicadores" runat="server" 
+    >
+  <HeaderTemplate>
+    
+  </HeaderTemplate>
+
+  <ItemTemplate>
+   
+      <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box <%# DataBinder.Eval(Container.DataItem, "color") %>">
+            <div class="inner">
+              <h3><%# DataBinder.Eval(Container.DataItem, "Indicador") %></h3>
+
+              <p><%# DataBinder.Eval(Container.DataItem, "nombrestatus") %></p>
+            </div>
+            <div class="icon">
+              <i class="<%# DataBinder.Eval(Container.DataItem, "icono") %>"></i>
+            </div>
+            <a class="small-box-footer" href="#">Mas Información <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+
+     
+   
+  </ItemTemplate>
+
+  <FooterTemplate>
+  
+  </FooterTemplate>
+</asp:repeater>
+              </dl>
+          </div>
+              </div>
+            </div>
+           
+            
             <!-- /.box-body -->
             <div class="col-md-4">
 <div class="box box-solid">
