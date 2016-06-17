@@ -45,6 +45,7 @@
     <Compile Include="CatSedesDAL.cs" />
     <Compile Include="CatStatusDAL.cs" />
     <Compile Include="CatTemasDAL.cs" />
+    <Compile Include="EmailDAL.cs" />
     <Compile Include="IndicadoresDAL.cs" />
     <Compile Include="MenuDAL.cs" />
     <Compile Include="MenuPerfilDAL.cs" />

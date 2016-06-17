@@ -101,6 +101,7 @@ public partial class Minutas_Nuevaminuta : System.Web.UI.Page
     }
     protected void btnaddParticipante_Click(object sender, EventArgs e)
     {
+
         MinutasBL bl = new MinutasBL();
         MinutasUsuarios usm = new MinutasUsuarios() { ObjMinutas = new Minutas(), ObjUsuarios = new UsuariosDatos() { User=new Usuarios() } };
         usm.ObjMinutas.IdSesion = Convert.ToInt32(hd_idsesion.Value);
@@ -262,7 +263,7 @@ public partial class Minutas_Nuevaminuta : System.Web.UI.Page
    
     protected void gdvAcuerdo_RowEditing(object sender, GridViewEditEventArgs e)
     {
-        
+        /*
          int id = Convert.ToInt32(gdvAcuerdo.DataKeys[e.NewEditIndex].Values[1]);
         MinutasBL bl = new MinutasBL();
         MinutasAcuerdos min = new MinutasAcuerdos() { ObjMinutas = new Minutas(), ObjTipoacuerdo = new CatTipoAcuerdo(), ObjUserSesion = new UsuariosDatos() };
@@ -274,11 +275,120 @@ public partial class Minutas_Nuevaminuta : System.Web.UI.Page
         min = bl.GetAcuerdosByFolio(min);
 
         txtfechai_b.Text = min.FechaIni.ToString();
-
+        */
     }
 
     protected void MailTemplate()
     {
+        try
+        {
+            if(gdvParticipantes.Rows.Count>0)
+            { 
+                StringBuilder sb = new StringBuilder();
+                UserControl ctr = (UserControl)LoadControl("~/Minutas/TemplateMailMinuta.ascx");
+                StringWriter sw = new StringWriter(sb);
+                Html32TextWriter htw = new Html32TextWriter(sw);
+                ctr.RenderControl(htw);
+                string templete = sb.ToString();
+                idsesion = Convert.ToInt32(hd_idsesion.Value);
+                MinutasUsuarios mu = new MinutasUsuarios() { ObjMinutas = new Minutas(), ObjUsuarios = new UsuariosDatos() { User = new Usuarios() } };
+                mu.ObjMinutas.IdSesion = idsesion;
+                mu.ObjUsuarios.User.IdUser = Convert.ToInt32(Session["IdUser"]);
+                MinutasBL blmu = new MinutasBL();
+
+
+                MinutasBL bl = new MinutasBL();
+                Minutas min = new Minutas() { ObjUsuarios = new UsuariosDatos() { User = new Usuarios() } };
+                min.IdSesion = idsesion;
+                min.ObjUsuarios.User.IdUser = Convert.ToInt32(Session["IdUser"]);
+                min = bl.GetMinutasbyFolio(min);
+
+                templete = templete.Replace("#Foliominuta#", string.Format("{0:D8}", idsesion));
+                templete = templete.Replace("#Fechacreacion#", min.Fecharegistro.ToShortDateString());
+                templete = templete.Replace("#Usuariocreador#", min.ObjUsuarios.NombreUser);
+                templete = templete.Replace("#Tematica#", min.ObjTemas.descripcion);
+                templete = templete.Replace("#Fechaentrega#", min.Fechafin.HasValue ? min.Fechafin.Value.ToShortDateString() : "");
+                templete = templete.Replace("#Tiposesion#", min.ObjTipoSesion.TipoSesion);
+            
+                templete = templete.Replace("#Objetivo#", HttpUtility.HtmlDecode(min.Objetivo));
+                templete = templete.Replace("#Descripcion#", HttpUtility.HtmlDecode(min.Descripcion));
+
+                string minutacompleta = "";
+
+                Email objemail = new Email();
+                EmailBL blmail = new EmailBL();
+                objemail.Principal = true;
+                objemail.IdMail = 0;
+                objemail.Usermail = string.Empty;
+
+                objemail = blmail.GetEmail(objemail);
+                objemail.Asunto = "Notificación de nueva Sesión de minuta. Folio " + string.Format("{0:D8}", idsesion);
+
+
+                foreach (MinutasUsuarios item in blmu.GetUsuariosSesion(mu))
+                {
+                    MinutasUsuarios obj = new MinutasUsuarios() { ObjMinutas = new Minutas(), ObjUsuarios = new UsuariosDatos() { User = new Usuarios() } };
+                    obj.ObjMinutas.IdSesion = idsesion;
+                    obj.ObjUsuarios.User.IdUser = item.IdUserMinuta;
+                    MinutasBL mbl = new MinutasBL();
+
+                    StringBuilder sb1 = new StringBuilder();
+                    UserControl ctr1 = (UserControl)LoadControl("~/Minutas/TemplateMailMinuta.ascx");
+                    StringWriter sw1 = new StringWriter(sb1);
+                    Html32TextWriter htw1 = new Html32TextWriter(sw1);
+                    ctr1.RenderControl(htw1);
+                    string templeteaux = sb1.ToString();
+
+                    templeteaux = templeteaux.Replace("#Usuario#", item.ObjUsuarios.NombreCompleto);
+                    templeteaux = templeteaux.Replace("#Foliominuta#", string.Format("{0:D8}", idsesion));
+                    templeteaux = templeteaux.Replace("#Fechacreacion#", min.Fecharegistro.ToShortDateString());
+                    templeteaux = templeteaux.Replace("#Usuariocreador#", min.ObjUsuarios.NombreUser);
+                    templeteaux = templeteaux.Replace("#Tematica#", min.ObjTemas.descripcion);
+                    templeteaux = templeteaux.Replace("#Fechaentrega#", min.Fechafin.HasValue ? min.Fechafin.Value.ToShortDateString() : "");
+                    templeteaux = templeteaux.Replace("#Tiposesion#", min.ObjTipoSesion.TipoSesion);
+
+                    templeteaux = templeteaux.Replace("#Objetivo#", HttpUtility.HtmlDecode(min.Objetivo));
+                    templeteaux = templeteaux.Replace("#Descripcion#", HttpUtility.HtmlDecode(min.Descripcion));
+
+                    StringBuilder sbltvUsuariosMinuta = new StringBuilder();
+                    System.IO.StringWriter stringWrite = new System.IO.StringWriter(sbltvUsuariosMinuta);
+                    System.Web.UI.Html32TextWriter htmlWrite = new Html32TextWriter(stringWrite);
+
+                    ltvUsuariosSesion.DataSource = mbl.GetUsuariosSesion(obj);
+                    ltvUsuariosSesion.DataBind();
+                    ltvUsuariosSesion.RenderControl(htmlWrite);
+
+                    minutacompleta += sbltvUsuariosMinuta.ToString();
+                    templeteaux = templeteaux.Replace("#Acuerdos#", sbltvUsuariosMinuta.ToString());
+
+                    generales gral = new generales();
+                    if (gral.IsValidEmail(item.ObjUsuarios.User.Username))
+                    {
+                        objemail.Body = templeteaux;
+                        objemail.MailTo = item.ObjUsuarios.User.Username;
+                        objemail.MailCC = string.Empty;
+                        objemail.MailBcc = string.Empty;
+                        generales.enviarMail(objemail);
+                    }
+                    stringWrite.Dispose();
+                    htmlWrite.Dispose();
+
+                    sw1.Dispose();
+                    htw1.Dispose();
+
+                }
+
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "$('.modalfinsesion').modal('show')", true);
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "bootbox.alert('<div class=\" alert alert-warning\">No existe participantes para ésta sesión. Para enviar la notificación es necesario incluir a los participantes.</div>')", true);
+            }
+        }
+        catch (Exception ex)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "bootbox.alert('<div class=\"alert alert-danger\">Se produjo un error al enviar el mail! " + ex.Message.Replace("'", "") + "</div>');", true);
+        }
 
     }
 
@@ -347,4 +457,16 @@ public partial class Minutas_Nuevaminuta : System.Web.UI.Page
 
     }
     #endregion 
+    protected void btnfinalizar_Click(object sender, EventArgs e)
+    {
+        MailTemplate();
+    }
+    protected void btnreload_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/minutas/nuevo");
+    }
+    protected void btnirahistorial_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/minutas/list");
+    }
 }
