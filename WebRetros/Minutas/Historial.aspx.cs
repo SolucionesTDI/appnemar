@@ -143,6 +143,7 @@ public partial class Minutas_Historial : System.Web.UI.Page
         fil.StatusCadena = CadenaOptions(ddlstatus_b);
         fil.TiempoEntregaCadena = CadenaOptions(ddltipoentrega_b);
         fil.IdUser = Convert.ToInt32(Session["IdUser"]);
+        fil.Origen = CadenaOptions(ddlorigen);
         return fil;
     }
 
@@ -246,4 +247,39 @@ public partial class Minutas_Historial : System.Web.UI.Page
         LimpiarFiltros();
         LoadGridMinutas();
     }
+
+    public override void VerifyRenderingInServerForm(Control control)
+    {
+
+    }
+
+    protected void btnExportar_Click(object sender, EventArgs e)
+    {
+        DateTime Hoy = DateTime.Today;
+        string fecha_actual = Hoy.ToString("ddMMyyyy");
+        mbl = new MinutasBL();
+        gdvExportarHistorial.DataSource = mbl.GetMinutas(FiltroMinutas());
+        gdvExportarHistorial.DataBind();
+        Exportar(gdvExportarHistorial, "Historialminutas_" + fecha_actual);
+    }
+
+    protected void Exportar(GridView gv, string nombreArchivo)
+    {
+        this.EnableViewState = false;
+        Response.ClearContent();
+        Response.ContentType = "application/vnd.ms-excel";
+        Response.Charset = "Windows-1252";
+        Response.AddHeader("content-disposition", "filename=" + nombreArchivo + ".xls");
+
+        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+
+
+        System.IO.StringWriter stringWrite = new System.IO.StringWriter();
+        System.Web.UI.HtmlTextWriter htmlWrite = new HtmlTextWriter(stringWrite);
+
+        gv.RenderControl(htmlWrite);
+        Response.Write(stringWrite.ToString());
+        Response.End();
+    }
+   
 }

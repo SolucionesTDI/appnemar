@@ -26,6 +26,7 @@ namespace Entidades
         public DateTime? FechaBFin { get; set; }
         public string Tipoentrega { get; set; }
         public string LabelDias { get; set; }
+        public string Origen { get; set; }
 
     }
 
@@ -84,5 +85,6 @@ namespace Entidades
         public string StatusCadena { get; set; }
         public string TiempoEntregaCadena { get; set; }
         public int IdUser { get; set; }
+        public string Origen { get; set; }
     }
 }

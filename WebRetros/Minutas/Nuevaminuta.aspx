@@ -31,7 +31,6 @@
                             <div class="col-sm-8">
                                 <div class="form-group">
                                     <label>Seleccionar Temática  </label>
-                                    
                                     <div class="input-group">
                                       <asp:DropDownList CssClass="form-control select2" AutoPostBack="false" ID="ddltema" runat="server"></asp:DropDownList>
                                       <div class="input-group-addon">
@@ -104,6 +103,7 @@
                 <Triggers>
                     <asp:AsyncPostBackTrigger ControlID="btnGuardarSesion" EventName="click" />
                     <asp:AsyncPostBackTrigger ControlID="btnaddParticipante" EventName="click" />
+                    <asp:AsyncPostBackTrigger ControlID="btnfinalizar" EventName="click" />
                 </Triggers>
                 </asp:UpdatePanel>
                 <div class="box-footer">
@@ -119,7 +119,6 @@
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                           </div>
                         </div>
-                        
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-sm-12">
@@ -134,6 +133,7 @@
                                               <Triggers>
                                                   <asp:AsyncPostBackTrigger ControlID="btnaddParticipante" EventName="click" />
                                                   <asp:AsyncPostBackTrigger ControlID="btnGuardarSesion" EventName="click" />
+                                                  <asp:AsyncPostBackTrigger ControlID="btnfinalizar" EventName="click" />
                                               </Triggers>
                                               </asp:UpdatePanel>
                                                     <div class="input-group-btn">
@@ -185,7 +185,7 @@
                                                                 <div class="table-responsive">
                                                                     <asp:GridView BorderWidth="0" CssClass="datagrid table table-striped" ID="gdvAcuerdo" runat="server"
                                                                              AutoGenerateColumns="false" AllowPaging="false" DataKeyNames="IdAcuerdo,IdUserMinuta" 
-                                                                             OnRowDeleting="gdvAcuerdo_RowDeleting" OnRowEditing="gdvAcuerdo_RowEditing">
+                                                                             OnRowDeleting="gdvAcuerdo_RowDeleting" >
                                                                         <Columns>
                                                                             <asp:TemplateField HeaderText="Fecha Inicial">
                                                                                 <ItemTemplate>
@@ -194,7 +194,7 @@
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Fecha Final">
                                                                                 <ItemTemplate>
-                                                                                    <asp:Label runat="server" ID="lblfin"><%# DataBinder.Eval(Container.DataItem, "FechaIni","{0:d}")%></asp:Label>
+                                                                                    <asp:Label runat="server" ID="lblfin"><%# DataBinder.Eval(Container.DataItem, "FechaFin","{0:d}")%></asp:Label>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Descripcion">
@@ -210,15 +210,15 @@
                                                                                         ID="btndelacuerdo" runat="server">
                                                                                                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
                                                                                     </asp:LinkButton>
-                                                                                    <asp:LinkButton CommandName="Edit"
+                                                                                  <%--  <asp:LinkButton CommandName="Edit"
                                                                                         CssClass="col-sm-1" ToolTip="Editar Acuerdo" data-toogle="tooltip"
                                                                                         ID="linkeditar" runat="server">
                                                                                                     <span class="fa fa-pencil" aria-hidden="true"></span> 
-                                                                                    </asp:LinkButton>
+                                                                                    </asp:LinkButton>--%>
                                                                                 </ContentTemplate>
                                                                                     <Triggers>
                                                                                         <asp:AsyncPostBackTrigger ControlID="btndelacuerdo" EventName="click" />
-                                                                                        <asp:AsyncPostBackTrigger ControlID="linkeditar" EventName="click" />
+                                                                                         <%-- <asp:AsyncPostBackTrigger ControlID="linkeditar" EventName="click" />--%>
                                                                                     </Triggers>
                                                                                 </asp:UpdatePanel>
                                                                                 </ItemTemplate>
@@ -241,6 +241,7 @@
                                         <asp:AsyncPostBackTrigger ControlID="btnGuardarSesion" EventName="click" />
                                         <asp:AsyncPostBackTrigger ControlID="btnaddParticipante" EventName="click" />
                                         <asp:AsyncPostBackTrigger ControlID="btnGuardarAcuerdo" EventName="click" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnfinalizar" EventName="click" />
                                     </Triggers>
                                     </asp:UpdatePanel>
                                 </div>
@@ -290,6 +291,7 @@
                                 <asp:AsyncPostBackTrigger ControlID="btnGuardarSesion" EventName="click" />
                                 <asp:AsyncPostBackTrigger ControlID="btnaddParticipante" EventName="click" />
                                 <asp:AsyncPostBackTrigger ControlID="btnGuardarAcuerdo" EventName="click" />
+                                 <asp:AsyncPostBackTrigger ControlID="btnfinalizar" EventName="click" />
                             </Triggers>
                          </asp:UpdatePanel>
                         
@@ -300,21 +302,38 @@
                 </div>
             </div> 
 
-            <%--<div class="row">
+           <div class="row">
                 <div class="col-sm-12">
-                    <asp:UpdatePanel ID="UpdatePanel3" runat="server">
-                        <ContentTemplate>
-                            <asp:GridView ID="gdvAcuerdos" runat="server">
-                                <Columns>
-
-                                </Columns>
-                            </asp:GridView>
-                        </ContentTemplate>
-                    </asp:UpdatePanel>
+                    <div class="alert alert-info">
+                        <asp:Button ID="btnfinalizar" CssClass="btn btn-warning"  OnClick="btnfinalizar_Click" runat="server" Text="Finalizar y Enviar Notificación" />
+                    </div>
                 </div>
-            </div>--%>
+            </div>
         </section>
     </div>
+
+        <div class="modal modal-success modalfinsesion">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Acción Finalizada</h4>
+              </div>
+              <div class="modal-body">
+                <p>Se ha notifacado de la nueva minuta a los participantes!</p>
+              </div>
+              <div class="modal-footer">
+                  <asp:Button ID="btnreload" CssClass="btn btn-outline pull-left"  OnClick="btnreload_Click" runat="server" Text="Iniciar nueva minuta" />
+                  <asp:Button ID="btnirahistorial" CssClass="btn btn-outline"  OnClick="btnirahistorial_Click" runat="server" Text="Ir al Historial" />
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
 
 <asp:ListView runat="server" ID="ltvUsuariosSesion" EnableModelValidation="True" DataKeyNames="IdSesionUser,IdUserMinuta"
   OnItemDataBound="ltvUsuariosSesion_ItemDataBound" >
@@ -348,9 +367,9 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="table-responsive">
-                                     <table class="table table-bordered table-hover">
+                                     <table class="table table-bordered table-hover" border='1' style='border-collapse:collapse;border:1px solid #99CCCC;color:#000000;width:100%' cellpadding='5' cellspacing='1'>
                                         <thead>
-                                            <tr>
+                                            <tr style='background-color:#EAEAEA;'>
                                               <th>Fecha inicial</th>
                                               <th>Fecha final</th>
                                               <th>Descripción</th>

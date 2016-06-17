@@ -77,6 +77,7 @@ namespace Datos
                     command.Parameters.AddWithValue("@idstatus", string.IsNullOrEmpty(obj.StatusCadena)? (object)DBNull.Value:obj.StatusCadena);
                     command.Parameters.AddWithValue("@tipoentrega", string.IsNullOrEmpty(obj.TiempoEntregaCadena)?(object)DBNull.Value:obj.TiempoEntregaCadena);
                     command.Parameters.AddWithValue("@iduser",obj.IdUser);
+                    command.Parameters.AddWithValue("@origen", string.IsNullOrEmpty(obj.Origen) ? (object)DBNull.Value : obj.Origen);
 
                     cn.OpenConnection();
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -103,7 +104,7 @@ namespace Datos
                             ent.ObjStatus.nomstatus = (string)reader["nomstatus"];
                             ent.LabelDias = (string)reader["labeldias"];
                             ent.TiempoEntrega = (string)reader["tiempoentrega"];
-
+                            ent.Origen = (string)reader["origen"];
                             list.Add(ent);
                         }
                     }
@@ -259,6 +260,8 @@ namespace Datos
                             ent.IdSesionUser = (int)reader["idsesionuser"];
                             ent.IdUserMinuta = (int)reader["idusuario"];
                             ent.ObjUsuarios.NombreCompleto = (string)reader["nombrecompleto"];
+                            ent.ObjUsuarios.User.Username = (string)reader["username"];
+
                             list.Add(ent);
                         }
                     }
