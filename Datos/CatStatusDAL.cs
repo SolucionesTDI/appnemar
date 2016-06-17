@@ -123,6 +123,8 @@ namespace Datos
                         cat.nomstatus = (string)reader["nomstatus"];
                         cat.orden = (int)reader["orden"];
                         cat.fecharegistro = (DateTime)reader["fecharegistro"];
+                        cat.color = (string)reader["color"];
+                        cat.icono = (string)reader["icono"];
                         list.Add(cat);
                     }
                 }
