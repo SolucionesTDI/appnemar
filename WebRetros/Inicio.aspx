@@ -62,7 +62,7 @@
             <div class="icon">
               <i class="<%# DataBinder.Eval(Container.DataItem, "icono") %>"></i>
             </div>
-            <a class="small-box-footer" href="#">Mas Información <i class="fa fa-arrow-circle-right"></i></a>
+          <!--  <a class="small-box-footer" href="#"><i class="fa fa-arrow-circle-right"></i></a>-->
           </div>
         </div>
 
@@ -107,7 +107,7 @@
             <div class="icon">
               <i class="<%# DataBinder.Eval(Container.DataItem, "icono") %>"></i>
             </div>
-            <a class="small-box-footer" href="#">Mas Información <i class="fa fa-arrow-circle-right"></i></a>
+             <!--  <a class="small-box-footer" href="#"><i class="fa fa-arrow-circle-right"></i></a>-->
           </div>
         </div>
 
@@ -154,7 +154,7 @@
             <div class="icon">
               <i class="<%# DataBinder.Eval(Container.DataItem, "icono") %>"></i>
             </div>
-            <a class="small-box-footer" href="#">Mas Información <i class="fa fa-arrow-circle-right"></i></a>
+            <!--  <a class="small-box-footer" href="#"><i class="fa fa-arrow-circle-right"></i></a>-->
           </div>
         </div>
 
